@@ -1,0 +1,65 @@
+# Build
+bin/
+obj/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Test Results
+TestResults/
+*.trx
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Publish
+publish/
+
+# EF Core
+*.dbmdl
+
+# LocalDB
+*.mdf
+*.ldf
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Secrets
+appsettings.Development.json
+secrets.json
+
+# Environment
+.env
+.env.*
+
+# Node (nếu có React/Vue/Angular)
+node_modules/
+dist/
+
+# Coverage
+coverage/
+coverage.xml
+
+# OS files
+.DS_Store
+Thumbs.db

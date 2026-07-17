@@ -7,13 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Books\Commands\Delete\" />
-    <Folder Include="Books\Commands\Update\" />
-    <Folder Include="Books\Queries\GetById\" />
-    <Folder Include="Books\Queries\GetAll\" />
-    <Folder Include="Common\Behavious\" />
-    <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Mappings\" />
+    <Folder Include="Features\Auth\Commands\Login\" />
+    <Folder Include="Features\Auth\Commands\RefreshToken\" />
+    <Folder Include="Features\Auth\Commands\RevokeToken\" />
+    <Folder Include="Features\Auth\Queries\" />
+    <Folder Include="Features\Books\Commands\Delete\" />
+    <Folder Include="Features\Books\Commands\Update\" />
+    <Folder Include="Features\Books\DTOs\" />
+    <Folder Include="Features\Books\Queries\GetById\" />
+    <Folder Include="Features\Books\Queries\GetAll\" />
+    <Folder Include="Common\Constants\" />
+    <Folder Include="Features\BookCategories\" />
+    <Folder Include="Features\Books\Queries\SearchBooks\" />
+    <Folder Include="Features\Orders\" />
+    <Folder Include="Features\Users\Commands\UpdateProfile\" />
+    <Folder Include="Features\Users\Queries\GetCurrentUser\" />
   </ItemGroup>
 
   <ItemGroup>

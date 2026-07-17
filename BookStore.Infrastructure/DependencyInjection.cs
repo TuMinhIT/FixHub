@@ -2,6 +2,7 @@
 
 using BookStore.Application.Common.Interfaces;
 using BookStore.Domain.IRepositories;
+using BookStore.Infrastructure.Authentication;
 using BookStore.Infrastructure.Persistence;
 using BookStore.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,10 @@ namespace BookStore.Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+
             return services;
 
         }

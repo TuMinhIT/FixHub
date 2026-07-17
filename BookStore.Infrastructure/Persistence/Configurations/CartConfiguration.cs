@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Books.Commands.Create
+namespace BookStore.Infrastructure.Persistence.Configurations
 {
-    internal class CreateBookValidator
+    internal class CartConfiguration
     {
     }
 }

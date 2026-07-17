@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Books.Commands.Create
+namespace BookStore.Application.Common.Models
 {
-    internal class CreateBookCommand
+    internal class Pagination
     {
     }
 }

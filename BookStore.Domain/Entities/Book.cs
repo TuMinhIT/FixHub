@@ -10,20 +10,25 @@ namespace BookStore.Domain.Entities
     {
         public Guid Id { get; set; }
         public Guid CategoryId { get; set; }
-
+        public string? ISBN { get; set; }
         public string Title { get; set; } = null!;
-        public string Description { get; set; }
-        public string Author { get; set; }
+        public string? Description { get; set; }
+        public decimal? DiscountPrice { get; set; }
+        public int stock { get; set; }
+        public string? Author { get; set; }
         public decimal Price { get; set; }     
-        public string image { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+        public List<string> Images { get; set; } = new List<string>();
+        public string? Language { get; set; }
+        public int? PublishYear { get; set; }
+        public int? PageCount { get; set; }
 
-        //public Category Category { get; set; }
-
+        public DateTime? Created { get; set; }= DateTime.UtcNow;
+        public DateTime? Updated { get; set; }
         // navigation properties
-        public ICollection<BookCategory> BookCategories { get; set; } = new List<BookCategory>();
 
-
+        public BookCategory Category { get; set; } = null!;
     }
 }
+
+
+

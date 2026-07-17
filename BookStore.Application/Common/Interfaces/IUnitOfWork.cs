@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using BookStore.Domain.IRepositories;
 
 namespace BookStore.Application.Common.Interfaces
 {
     public interface IUnitOfWork
     {
+        IUserRepository UserRepository { get; }
+        IBookRepository BookRepository { get; } 
+       
+
         Task<int> SaveChangesAsync(
             CancellationToken cancellationToken = default);
     }

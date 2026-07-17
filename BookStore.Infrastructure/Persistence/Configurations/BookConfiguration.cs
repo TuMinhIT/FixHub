@@ -14,14 +14,22 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Title)
-            .HasMaxLength(200)
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(200);
+
+        builder.Property(x => x.Description)
+            .HasMaxLength(2000);
+
+        builder.Property(x => x.Author)
+            .HasMaxLength(100);
 
         builder.Property(x => x.Price)
             .HasPrecision(18, 2);
 
-        //builder.HasOne(x => x.BookCategories)
-        //    .WithMany(x => x.Books)
-        //    .HasForeignKey(x => x.CategoryId);
+
+        builder.HasOne(x => x.Category)
+            .WithMany(x => x.Books)
+            .HasForeignKey(x => x.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -30,11 +30,6 @@ namespace BookStore.Infrastructure.Persistence.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task AddAsync(T entity)
-        {
-            await _dbSet.AddAsync(entity);
-        }
-
 
         public async Task<IQueryable<T>> Find(Func<T, bool> predicate)
         {
@@ -71,14 +66,17 @@ namespace BookStore.Infrastructure.Persistence.Repositories
             return false;
         }
 
-        IQueryable<T> IRepository<T>.Find(Func<T, bool> predicate)
+
+        public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Where(predicate);
         }
 
-        Task<T> IRepository<T>.AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(entity);
+            return  entity;
+            
         }
     }
 }

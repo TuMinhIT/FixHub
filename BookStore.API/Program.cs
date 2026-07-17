@@ -1,6 +1,8 @@
-
+﻿using BookStore.API.Middlewares;
 using BookStore.Application;
+using BookStore.Application.Common.Interfaces;
 using BookStore.Infrastructure;
+
 namespace BookStore.API
 {
     public class Program
@@ -13,11 +15,12 @@ namespace BookStore.API
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructure(builder.Configuration);
 
-            builder.Services.AddControllers();
 
-            // Add services to the container.
+            builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddControllers();
             builder.Services.AddAuthorization();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -30,9 +33,19 @@ namespace BookStore.API
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            // Đăng ký Global Exception Middleware
+         
+            app.UseMiddleware<ExceptionMiddleware>();
 
+            app.UseHttpsRedirection();
+          
+            app.UseAuthentication();
             app.UseAuthorization();
+            
+            app.MapControllers();
+
+            app.MapGet("/hello", () => "Hello World!");
+
             app.Run();
         }
     }

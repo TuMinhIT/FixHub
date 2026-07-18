@@ -15,9 +15,14 @@ namespace BookStore.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.Token)
                 .IsRequired();
+                
 
             builder.HasIndex(x => x.Token)
                 .IsUnique();
+            builder.HasOne(x=> x.User)
+                .WithMany(x=> x.RefreshTokens)
+                .HasForeignKey(x=> x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

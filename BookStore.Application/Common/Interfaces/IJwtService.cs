@@ -11,7 +11,7 @@ namespace BookStore.Application.Common.Interfaces
     { 
         public string GenerateAccessToken(User user);
 
-        public RefreshToken GenerateRefreshToken(Guid userId);
+        public RefreshToken GenerateRefreshToken(User user);
        
     }
 }

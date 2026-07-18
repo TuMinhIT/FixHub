@@ -39,7 +39,7 @@ namespace BookStore.Application.Features.Auth.Commands.Login
        
             //generate access token and refresh token
             var accessToken = _jwtService.GenerateAccessToken(user);
-            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            var refreshToken = _jwtService.GenerateRefreshToken(user);
 
             await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken);
             await _unitOfWork.SaveChangesAsync();

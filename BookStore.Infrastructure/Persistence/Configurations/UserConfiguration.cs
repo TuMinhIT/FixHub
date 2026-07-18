@@ -15,7 +15,7 @@ namespace BookStore.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Password).IsRequired().HasMaxLength(100);
-            builder.HasMany(x => x.refreshTokens)
+            builder.HasMany(x => x.RefreshTokens)
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
                  

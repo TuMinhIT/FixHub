@@ -53,12 +53,12 @@ namespace BookStore.Infrastructure.Authentication
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public RefreshToken GenerateRefreshToken(Guid userId )
+        public RefreshToken GenerateRefreshToken(User user )
         {
             return new RefreshToken
             {
                 Id = Guid.NewGuid(),
-                UserId= userId,
+                UserId= user.Id,
 
                 Token = Convert.ToBase64String(
                     RandomNumberGenerator.GetBytes(64)),
@@ -67,6 +67,7 @@ namespace BookStore.Infrastructure.Authentication
 
                 ExpiresAt = DateTime.UtcNow.AddDays(
                     _jwtSettings.RefreshTokenDays)
+               
             };
         }
     }

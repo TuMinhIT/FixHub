@@ -1,5 +1,7 @@
 ﻿using BookStore.Application.Common.Models;
 using BookStore.Application.Features.Auth.Commands.Login;
+using BookStore.Application.Features.Auth.Commands.logout;
+using BookStore.Application.Features.Auth.Commands.RefreshToken;
 using BookStore.Application.Features.Auth.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -41,8 +43,6 @@ namespace BookStore.API.Controllers
             });
 
             response.RefeshToken = string.Empty;
-
-
             return Ok(new ApiResponse<LoginResponse>
             {
                 Success = true,
@@ -51,24 +51,75 @@ namespace BookStore.API.Controllers
             });
         }
 
-        //[HttpPost("refresh-token")]
-        //public async Task<IActionResult> Refresh()
-        //{
-        //    var refreshToken = Request.Cookies["refreshToken"];
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> Refresh()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
 
-        //    var response = await _mediator.Send(
-        //        new RefreshTokenCommand(refreshToken));
+            var response = await _mediator.Send(
+             new RefreshTokenCommand(refreshToken));
 
-        //    Response.Cookies.Append(
-        //        "refreshToken",
-        //        response.RefreshToken,
-        //        CookieOptions());
+            Response.Cookies.Append(
+                "refreshToken",
+                response.RefreshToken,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddDays(7)
+                });
 
-        //    response.RefreshToken = "";
 
-        //    return Ok(response);
-        //}
+            response.RefreshToken = "";
 
+            return Ok(new ApiResponse<RefreshTokenResponse>
+            {
+                Success = true,
+                Message = "Token refreshed successfully",
+                Data = response
+            });
+        }
+
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(CancellationToken cancellationToken)
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            if (string.IsNullOrWhiteSpace(refreshToken))
+            {
+                return BadRequest(new ApiResponse<string>
+                {
+                    Success = false,
+                    Message = "Refresh token not found.",
+                    Data = null
+                });
+            }
+
+            var result = await _mediator.Send(
+                new LogoutCommand(refreshToken),
+                cancellationToken);
+
+            if (!result)
+            {
+                return BadRequest(new ApiResponse<string>
+                {
+                    Success = false,
+                    Message = "Invalid refresh token.",
+                    Data = null
+                });
+            }
+
+            Response.Cookies.Delete("refreshToken");
+
+            return Ok(new ApiResponse<string>
+            {
+                Success = true,
+                Message = "Logout successfully.",
+                Data = null
+            });
+        }
     }
 
     

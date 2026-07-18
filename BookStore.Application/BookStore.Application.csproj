@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auth\Commands\RefreshToken\" />
     <Folder Include="Features\Auth\Commands\RevokeToken\" />
     <Folder Include="Features\Auth\Queries\" />
     <Folder Include="Features\Books\Commands\Delete\" />

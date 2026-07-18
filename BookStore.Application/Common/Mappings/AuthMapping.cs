@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Application.Common.Mappings
 {
-    public class AuthResponse
+    public class AuthMapping
     {
+
     }
 }

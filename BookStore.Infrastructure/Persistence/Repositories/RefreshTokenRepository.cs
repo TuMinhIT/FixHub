@@ -1,5 +1,6 @@
 ﻿using BookStore.Domain.Entities;
 using BookStore.Domain.IRepositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
 
@@ -9,6 +10,11 @@ namespace BookStore.Infrastructure.Persistence.Repositories
     {
         public RefreshTokenRepository(AppDbContext context) : base(context)
         {
+        }
+
+        public async Task<RefreshToken?> GetByTokenAsync(string token)
+        {
+            return await _context.RefreshTokens.Include(x=>x.User).FirstOrDefaultAsync(rt =>rt.Token == token);
         }
 
         public bool RevokeToken(string refreshToken)

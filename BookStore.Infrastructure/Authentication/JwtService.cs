@@ -1,15 +1,73 @@
 ﻿
 
+using BookStore.Application.Common.Interfaces;
+using BookStore.Domain.Entities;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace BookStore.Infrastructure.Authentication
 {
+    public class JwtService : IJwtService
+    {
 
-        //public class JwtService : IJwtService
-        //{
-        //    public string GenerateToken(User user)
-        //    {
-        //        // Tạo JWT bằng Microsoft.IdentityModel.Tokens
-        //    }
-        
+        private readonly JwtSettings _jwtSettings;
 
-    //}
+        public JwtService(IOptions<JwtSettings> options )
+        {
+            _jwtSettings = options.Value;
+        }
+        public string GenerateAccessToken(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+
+                new Claim(ClaimTypes.Name, user.Name),
+
+                new Claim(ClaimTypes.Role, user.Role),
+
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+
+            var credentials = new SigningCredentials(
+                key,
+                SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenMinutes),
+                signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public RefreshToken GenerateRefreshToken(Guid userId )
+        {
+            return new RefreshToken
+            {
+                Id = Guid.NewGuid(),
+                UserId= userId,
+
+                Token = Convert.ToBase64String(
+                    RandomNumberGenerator.GetBytes(64)),
+
+                CreatedAt = DateTime.UtcNow,
+
+                ExpiresAt = DateTime.UtcNow.AddDays(
+                    _jwtSettings.RefreshTokenDays)
+            };
+        }
+    }
 }

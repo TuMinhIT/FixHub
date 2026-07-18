@@ -26,7 +26,6 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(x => x.Price)
             .HasPrecision(18, 2);
 
-
         builder.HasOne(x => x.Category)
             .WithMany(x => x.Books)
             .HasForeignKey(x => x.CategoryId)

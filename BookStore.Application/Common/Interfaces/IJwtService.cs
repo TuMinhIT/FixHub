@@ -9,9 +9,9 @@ namespace BookStore.Application.Common.Interfaces
 {
     public interface IJwtService
     { 
-        string GenerateAccessToken(User user);
+        public string GenerateAccessToken(User user);
 
-        RefreshToken GenerateRefreshToken();
+        public RefreshToken GenerateRefreshToken(Guid userId);
        
     }
 }

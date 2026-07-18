@@ -24,12 +24,10 @@ namespace BookStore.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IJwtService, JwtService>();
 
             return services;
-
         }
-
-
     }
 }

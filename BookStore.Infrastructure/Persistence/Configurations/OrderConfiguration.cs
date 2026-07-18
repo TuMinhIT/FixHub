@@ -1,7 +1,7 @@
 ﻿
 namespace BookStore.Infrastructure.Persistence.Configurations
 {
-    internal class OrderConfiguration
+    public class OrderConfiguration
     {
     }
 }

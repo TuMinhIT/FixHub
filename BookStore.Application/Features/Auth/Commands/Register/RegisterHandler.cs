@@ -3,9 +3,7 @@ using AutoMapper;
 using BookStore.Application.Common.Exceptions;
 using BookStore.Application.Common.Interfaces;
 using BookStore.Domain.Entities;
-using BookStore.Domain.IRepositories;
 using MediatR;
-using System.Net;
 
 namespace BookStore.Application.Features.Auth.Commands.Register
 {

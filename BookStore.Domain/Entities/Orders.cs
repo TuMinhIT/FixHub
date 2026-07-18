@@ -6,7 +6,7 @@ namespace BookStore.Domain.Entities
     public class Orders
     {
          public Guid Id { get; set; }
-    public Guid UserId { get; set; }
+        public Guid UserId { get; set; }
         public Guid AddressId { get; set; }
         public decimal TotalPrice { get; set; }
         public decimal ShippingFee { get; set; }

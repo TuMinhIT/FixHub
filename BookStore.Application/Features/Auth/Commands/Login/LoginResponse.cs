@@ -1,0 +1,16 @@
+﻿
+
+
+using BookStore.Application.Features.Auth;
+
+namespace BookStore.Application.Features.Auth.Commands.Login
+{
+    public class LoginResponse
+    {
+        public string RefeshToken { get; set; } = string.Empty;
+        public string AccessToken { get; set; } = string.Empty;
+        public DateTime Expiration { get; set; }
+        public UserLoginResponse User { get; set; }
+
+    }
+}

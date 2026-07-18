@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System;
 
 namespace BookStore.Application.Features.Users.Queries.GetAllUsers
 {

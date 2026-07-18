@@ -8,16 +8,20 @@ namespace BookStore.Infrastructure.Persistence
         private readonly AppDbContext _context;
         private readonly IUserRepository _userRepository;
         private readonly IBookRepository _bookRepository;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
 
-        public UnitOfWork(AppDbContext context, IUserRepository userRepository, IBookRepository bookRepository)
+        public UnitOfWork(AppDbContext context, IUserRepository userRepository,
+            IBookRepository bookRepository, IRefreshTokenRepository refreshTokenRepository)
         {
             _context = context;
             _userRepository = userRepository;
             _bookRepository = bookRepository;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
         public IBookRepository BookRepository => _bookRepository;
+        public IRefreshTokenRepository RefreshTokenRepository => _refreshTokenRepository;
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

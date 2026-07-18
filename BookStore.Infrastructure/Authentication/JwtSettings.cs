@@ -1,14 +1,14 @@
-﻿
-
-namespace BookStore.Infrastructure.Authentication
+﻿namespace BookStore.Infrastructure.Authentication
 {
     public class JwtSettings
     {
-        public string Issuer { get; set; }
+        public const string SectionName = "JwtSettings";
 
-        public string Audience { get; set; }
+        public string Secret { get; set; } = null!;
 
-        public string Secret { get; set; }
+        public string Issuer { get; set; } = null!;
+
+        public string Audience { get; set; } = null!;
 
         public int AccessTokenMinutes { get; set; }
 

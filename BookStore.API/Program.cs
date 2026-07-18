@@ -1,7 +1,11 @@
 ﻿using BookStore.API.Middlewares;
 using BookStore.Application;
-using BookStore.Application.Common.Interfaces;
+
 using BookStore.Infrastructure;
+using BookStore.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BookStore.API
 {
@@ -18,6 +22,10 @@ namespace BookStore.API
 
             builder.Services.AddHttpContextAccessor();
 
+            builder.Services.AddJwtAuthentication(builder.Configuration);
+          
+
+
             builder.Services.AddControllers();
             builder.Services.AddAuthorization();
             
@@ -33,8 +41,7 @@ namespace BookStore.API
                 app.UseSwaggerUI();
             }
 
-            // Đăng ký Global Exception Middleware
-         
+            // Đăng ký Global Exception Middleware     
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();

@@ -7,7 +7,7 @@ namespace BookStore.API.Controllers
 {
     [ApiController]
     [Route("api/user")]
-    public class UsesController(IMediator _mediator): ControllerBase
+    public class UserController(IMediator _mediator): ControllerBase
     {
         [HttpGet("all")]
         public async Task<IActionResult> getAllUser(CancellationToken cancellationToken)

@@ -7,10 +7,12 @@ namespace BookStore.Application.Common.Interfaces
     public interface IUnitOfWork
     {
         IUserRepository UserRepository { get; }
-        IBookRepository BookRepository { get; } 
-       
 
-        Task<int> SaveChangesAsync(
-            CancellationToken cancellationToken = default);
+        IBookRepository BookRepository { get; }
+
+        IRefreshTokenRepository RefreshTokenRepository { get; }
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+     
     }
 }

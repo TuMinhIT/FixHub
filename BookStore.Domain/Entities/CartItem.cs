@@ -9,5 +9,6 @@ namespace BookStore.Domain.Entities
         public Guid BookId { get; set; }
         public int Quantity { get; set; }
 
+        public Cart Cart { get; set; }
     }
 }

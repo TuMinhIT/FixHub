@@ -1,8 +1,9 @@
-﻿
+﻿using System;
 
-namespace BookStore.Application.Features.Users.Queries.GetAllUsers
+
+namespace BookStore.Application.Features.Auth.Commands.Login
 {
-    public class UserResponse
+    public class UserLoginResponse
     {
         public Guid Id { get; set; }
 

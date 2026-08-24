@@ -1,9 +1,9 @@
-﻿using BookStore.Application.Common.Interfaces;
+﻿using FixHub.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 
-namespace BookStore.Infrastructure.Authentication
+namespace FixHub.Infrastructure.Authentication
 {
     public class CurrentUserService : ICurrentUserService
     {

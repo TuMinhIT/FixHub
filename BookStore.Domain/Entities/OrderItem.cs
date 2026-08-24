@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Domain.Entities
+namespace FixHub.Domain.Entities
 {
     public class OrderItem
     {

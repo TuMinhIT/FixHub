@@ -1,11 +1,11 @@
 ﻿
 
 using AutoMapper;
-using BookStore.Application.Common.Interfaces;
-using BookStore.Domain.IRepositories;
+using FixHub.Application.Common.Interfaces;
+using FixHub.Domain.IRepositories;
 using MediatR;
 
-namespace BookStore.Application.Features.Auth.Commands.RefreshToken
+namespace FixHub.Application.Features.Auth.Commands.RefreshToken
 {
     public class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, RefreshTokenResponse>
     {

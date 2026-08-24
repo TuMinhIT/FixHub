@@ -1,6 +1,6 @@
 ﻿
 
-namespace BookStore.Application.Features.Auth.Commands.Logout
+namespace FixHub.Application.Features.Auth.Commands.Logout
 {
     public class LogoutResponse
     {

@@ -1,7 +1,7 @@
-﻿using BookStore.Application.Common.Interfaces;
-using BookStore.Domain.IRepositories;
+﻿using FixHub.Application.Common.Interfaces;
+using FixHub.Domain.IRepositories;
 
-namespace BookStore.Infrastructure.Persistence
+namespace FixHub.Infrastructure.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {

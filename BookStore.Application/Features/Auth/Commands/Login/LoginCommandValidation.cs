@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Features.Auth.Commands.Login
+namespace FixHub.Application.Features.Auth.Commands.Login
 {
     public class LoginCommandValidation: AbstractValidator<LoginCommand>
     {

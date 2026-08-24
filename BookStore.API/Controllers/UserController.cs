@@ -1,9 +1,9 @@
-﻿using BookStore.Application.Common.Models;
-using BookStore.Application.Features.Users.Queries.GetAllUsers;
+﻿using FixHub.Application.Common.Models;
+using FixHub.Application.Features.Users.Queries.GetAllUsers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStore.API.Controllers
+namespace FixHub.API.Controllers
 {
     [ApiController]
     [Route("api/user")]

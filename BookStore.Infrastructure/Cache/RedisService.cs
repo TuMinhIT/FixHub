@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Infrastructure.Cache
+namespace FixHub.Infrastructure.Cache
 {
     internal class RedisService
     {

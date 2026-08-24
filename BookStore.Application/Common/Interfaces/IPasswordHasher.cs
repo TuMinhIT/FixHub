@@ -1,5 +1,5 @@
 ﻿
-namespace BookStore.Application.Common.Interfaces
+namespace FixHub.Application.Common.Interfaces
 {
     public interface IPasswordHasher
     {

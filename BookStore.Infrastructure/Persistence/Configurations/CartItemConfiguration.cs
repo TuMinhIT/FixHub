@@ -1,10 +1,10 @@
-﻿using BookStore.Domain.Entities;
+﻿using FixHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Security.Cryptography.X509Certificates;
 
 
-namespace BookStore.Infrastructure.Persistence.Configurations
+namespace FixHub.Infrastructure.Persistence.Configurations
 {
     public class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
     {

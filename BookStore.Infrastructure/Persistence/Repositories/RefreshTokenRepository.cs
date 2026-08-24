@@ -1,10 +1,10 @@
-﻿using BookStore.Domain.Entities;
-using BookStore.Domain.IRepositories;
+﻿using FixHub.Domain.Entities;
+using FixHub.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
 
-namespace BookStore.Infrastructure.Persistence.Repositories
+namespace FixHub.Infrastructure.Persistence.Repositories
 {
     public class RefreshTokenRepository : Repository<RefreshToken>, IRefreshTokenRepository
     {

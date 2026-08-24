@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace BookStore.Application.Features.Auth.Commands.Register
+namespace FixHub.Application.Features.Auth.Commands.Register
 {
     public class RegisterResponse
     {

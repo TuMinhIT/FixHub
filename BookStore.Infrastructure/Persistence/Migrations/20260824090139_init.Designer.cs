@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FixHub.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260716143714_init2")]
-    partial class init2
+    [Migration("20260824090139_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,7 @@ namespace FixHub.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BookStore.Domain.Entities.Address", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,7 +62,7 @@ namespace FixHub.Infrastructure.Migrations
                     b.ToTable("Addresses", (string)null);
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.Book", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.Book", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace FixHub.Infrastructure.Migrations
                     b.ToTable("Books", (string)null);
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.BookCategory", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.BookCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -142,7 +142,48 @@ namespace FixHub.Infrastructure.Migrations
                     b.ToTable("BookCategories", (string)null);
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.OrderItem", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("FixHub.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("CartItem");
+                });
+
+            modelBuilder.Entity("FixHub.Domain.Entities.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,7 +206,7 @@ namespace FixHub.Infrastructure.Migrations
                     b.ToTable("OrderItems", (string)null);
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.RefreshToken", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,7 +238,7 @@ namespace FixHub.Infrastructure.Migrations
                     b.ToTable("RefreshTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.User", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,9 +283,9 @@ namespace FixHub.Infrastructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.Address", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("BookStore.Domain.Entities.User", "User")
+                    b.HasOne("FixHub.Domain.Entities.User", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,9 +294,9 @@ namespace FixHub.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.Book", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.Book", b =>
                 {
-                    b.HasOne("BookStore.Domain.Entities.BookCategory", "Category")
+                    b.HasOne("FixHub.Domain.Entities.BookCategory", "Category")
                         .WithMany("Books")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -264,10 +305,10 @@ namespace FixHub.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.RefreshToken", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.Cart", b =>
                 {
-                    b.HasOne("BookStore.Domain.Entities.User", "User")
-                        .WithMany("refreshTokens")
+                    b.HasOne("FixHub.Domain.Entities.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -275,16 +316,43 @@ namespace FixHub.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.BookCategory", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("FixHub.Domain.Entities.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("FixHub.Domain.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("FixHub.Domain.Entities.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FixHub.Domain.Entities.BookCategory", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("BookStore.Domain.Entities.User", b =>
+            modelBuilder.Entity("FixHub.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("FixHub.Domain.Entities.User", b =>
                 {
                     b.Navigation("Addresses");
 
-                    b.Navigation("refreshTokens");
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

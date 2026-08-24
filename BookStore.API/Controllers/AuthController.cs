@@ -1,12 +1,12 @@
-﻿using BookStore.Application.Common.Models;
-using BookStore.Application.Features.Auth.Commands.Login;
-using BookStore.Application.Features.Auth.Commands.logout;
-using BookStore.Application.Features.Auth.Commands.RefreshToken;
-using BookStore.Application.Features.Auth.Commands.Register;
+﻿using FixHub.Application.Common.Models;
+using FixHub.Application.Features.Auth.Commands.Login;
+using FixHub.Application.Features.Auth.Commands.logout;
+using FixHub.Application.Features.Auth.Commands.RefreshToken;
+using FixHub.Application.Features.Auth.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStore.API.Controllers
+namespace FixHub.API.Controllers
 {
     [ApiController]
 
@@ -69,8 +69,6 @@ namespace BookStore.API.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTimeOffset.UtcNow.AddDays(7)
                 });
-
-
             response.RefreshToken = "";
 
             return Ok(new ApiResponse<RefreshTokenResponse>
@@ -80,7 +78,6 @@ namespace BookStore.API.Controllers
                 Data = response
             });
         }
-
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout(CancellationToken cancellationToken)

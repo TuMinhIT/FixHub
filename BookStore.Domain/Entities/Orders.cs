@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.ObjectModel;
 
-namespace BookStore.Domain.Entities
+namespace FixHub.Domain.Entities
 {
     public class Orders
     {

@@ -1,11 +1,11 @@
-﻿using BookStore.Application.Common.Behaviors;
-using BookStore.Application.Common.Behavious;
+﻿using FixHub.Application.Common.Behaviors;
+using FixHub.Application.Common.Behavious;
 using FluentValidation; // Thêm thư viện này
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace BookStore.Application
+namespace FixHub.Application
 {
     public static class DependencyInjection
     {

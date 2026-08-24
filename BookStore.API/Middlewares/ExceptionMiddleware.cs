@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Text.Json;
-using BookStore.Application.Common.Exceptions; 
-using BookStore.Application.Common.Models;
+using FixHub.Application.Common.Exceptions; 
+using FixHub.Application.Common.Models;
 using FluentValidation;
 
-namespace BookStore.API.Middlewares
+namespace FixHub.API.Middlewares
 {
     public class ExceptionMiddleware
     {

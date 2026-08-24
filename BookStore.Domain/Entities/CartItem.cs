@@ -1,6 +1,6 @@
 ﻿
 
-namespace BookStore.Domain.Entities
+namespace FixHub.Domain.Entities
 {
     public class CartItem
     {

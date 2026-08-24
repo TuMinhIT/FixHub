@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BookStore.Infrastructure.Authentication
+namespace FixHub.Infrastructure.Authentication
 {
     public static class JwtConfiguration
     {

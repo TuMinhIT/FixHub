@@ -1,10 +1,10 @@
-﻿using BookStore.Application.Common.Interfaces;
-using BookStore.Application.Features.Auth.Commands.Logout;
+﻿using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Features.Auth.Commands.Logout;
 
 using MediatR;
 
 
-namespace BookStore.Application.Features.Auth.Commands.logout
+namespace FixHub.Application.Features.Auth.Commands.logout
 {
     public class LogoutHandler : IRequestHandler<LogoutCommand, bool>
     {

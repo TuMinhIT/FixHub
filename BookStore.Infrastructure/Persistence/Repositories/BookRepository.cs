@@ -1,9 +1,9 @@
 ﻿
-using BookStore.Domain.Entities;
-using BookStore.Domain.IRepositories;
+using FixHub.Domain.Entities;
+using FixHub.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookStore.Infrastructure.Persistence.Repositories
+namespace FixHub.Infrastructure.Persistence.Repositories
 {
 
     public class BookRepository :Repository<Book> ,IBookRepository

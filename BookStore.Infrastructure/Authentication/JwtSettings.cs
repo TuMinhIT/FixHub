@@ -1,4 +1,4 @@
-﻿namespace BookStore.Infrastructure.Authentication
+﻿namespace FixHub.Infrastructure.Authentication
 {
     public class JwtSettings
     {

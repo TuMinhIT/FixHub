@@ -2,7 +2,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace BookStore.Application.Common.Behavious
+namespace FixHub.Application.Common.Behavious
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

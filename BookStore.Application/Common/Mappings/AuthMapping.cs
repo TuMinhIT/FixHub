@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Common.Mappings
+namespace FixHub.Application.Common.Mappings
 {
     public class AuthMapping
     {

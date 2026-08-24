@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using BookStore.Application.Features.Auth.Commands.Login;
-using BookStore.Application.Features.Auth.Commands.Register;
-using BookStore.Application.Features.Users.Queries.GetAllUsers;
-using BookStore.Domain.Entities;
+using FixHub.Application.Features.Auth.Commands.Login;
+using FixHub.Application.Features.Auth.Commands.Register;
+using FixHub.Application.Features.Users.Queries.GetAllUsers;
+using FixHub.Domain.Entities;
 
-namespace BookStore.Application.Common.Mapping;
+namespace FixHub.Application.Common.Mapping;
 
 public class UserProfile : Profile
 {

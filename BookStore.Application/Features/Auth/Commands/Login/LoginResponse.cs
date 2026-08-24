@@ -1,9 +1,9 @@
 ﻿
 
 
-using BookStore.Application.Features.Auth;
+using FixHub.Application.Features.Auth;
 
-namespace BookStore.Application.Features.Auth.Commands.Login
+namespace FixHub.Application.Features.Auth.Commands.Login
 {
     public class LoginResponse
     {

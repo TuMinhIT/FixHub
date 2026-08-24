@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace BookStore.Application.Common.Behaviors;
+namespace FixHub.Application.Common.Behaviors;
 
 public class PerformanceBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>

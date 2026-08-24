@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace BookStore.Application.Common.Behaviors;
+namespace FixHub.Application.Common.Behaviors;
 
 public class ExceptionBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>

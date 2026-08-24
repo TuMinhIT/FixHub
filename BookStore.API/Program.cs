@@ -1,13 +1,10 @@
-﻿using BookStore.API.Middlewares;
-using BookStore.Application;
+﻿using FixHub.API.Middlewares;
+using FixHub.Application;
 
-using BookStore.Infrastructure;
-using BookStore.Infrastructure.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using FixHub.Infrastructure;
+using FixHub.Infrastructure.Authentication;
 
-namespace BookStore.API
+namespace FixHub.API
 {
     public class Program
     {
@@ -19,13 +16,8 @@ namespace BookStore.API
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructure(builder.Configuration);
 
-
             builder.Services.AddHttpContextAccessor();
-
-            builder.Services.AddJwtAuthentication(builder.Configuration);
-          
-
-
+            builder.Services.AddJwtAuthentication(builder.Configuration);         
             builder.Services.AddControllers();
             builder.Services.AddAuthorization();
             
@@ -51,7 +43,7 @@ namespace BookStore.API
             
             app.MapControllers();
 
-            app.MapGet("/hello", () => "Hello World!");
+            app.MapGet("/", () => "Hello World!");
 
             app.Run();
         }

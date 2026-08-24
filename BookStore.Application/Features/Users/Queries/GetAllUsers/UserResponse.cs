@@ -1,6 +1,6 @@
 ﻿
 
-namespace BookStore.Application.Features.Users.Queries.GetAllUsers
+namespace FixHub.Application.Features.Users.Queries.GetAllUsers
 {
     public class UserResponse
     {

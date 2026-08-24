@@ -1,11 +1,11 @@
 ﻿
 using AutoMapper;
-using BookStore.Application.Common.Exceptions;
-using BookStore.Application.Common.Interfaces;
-using BookStore.Domain.Entities;
+using FixHub.Application.Common.Exceptions;
+using FixHub.Application.Common.Interfaces;
+using FixHub.Domain.Entities;
 using MediatR;
 
-namespace BookStore.Application.Features.Auth.Commands.Register
+namespace FixHub.Application.Features.Auth.Commands.Register
 {
     public class RegisterHandler :
         IRequestHandler<RegisterCommand, RegisterResponse>

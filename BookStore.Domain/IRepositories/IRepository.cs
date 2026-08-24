@@ -1,7 +1,7 @@
 ﻿
 using System.Linq.Expressions;
 
-namespace BookStore.Domain.IRepositories
+namespace FixHub.Domain.IRepositories
 {
    public interface IRepository<T> where T : class
     {

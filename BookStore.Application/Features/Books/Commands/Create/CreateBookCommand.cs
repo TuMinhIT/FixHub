@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Features.Books.Commands.Create
+namespace FixHub.Application.Features.Books.Commands.Create
 {
     internal class CreateBookCommand
     {

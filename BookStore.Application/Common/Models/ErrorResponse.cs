@@ -1,5 +1,5 @@
 ﻿
-namespace BookStore.Application.Common.Models
+namespace FixHub.Application.Common.Models
 {
     public class ErrorResponse
     {

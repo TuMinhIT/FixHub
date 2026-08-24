@@ -1,15 +1,15 @@
 ﻿
 
-using BookStore.Application.Common.Interfaces;
-using BookStore.Domain.IRepositories;
-using BookStore.Infrastructure.Authentication;
-using BookStore.Infrastructure.Persistence;
-using BookStore.Infrastructure.Persistence.Repositories;
+using FixHub.Application.Common.Interfaces;
+using FixHub.Domain.IRepositories;
+using FixHub.Infrastructure.Authentication;
+using FixHub.Infrastructure.Persistence;
+using FixHub.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BookStore.Infrastructure
+namespace FixHub.Infrastructure
 {
     public static class DependencyInjection
     {

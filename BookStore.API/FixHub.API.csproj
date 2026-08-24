@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookStore.Application\BookStore.Application.csproj" />
-    <ProjectReference Include="..\BookStore.Infrastructure\BookStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\BookStore.Application\FixHub.Application.csproj" />
+    <ProjectReference Include="..\BookStore.Infrastructure\FixHub.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 using FluentValidation;
 
-namespace BookStore.Application.Features.Auth.Commands.Register
+namespace FixHub.Application.Features.Auth.Commands.Register
 {
     public class RegisterCommandValidator
      : AbstractValidator<RegisterCommand>

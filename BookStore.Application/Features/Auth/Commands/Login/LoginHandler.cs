@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using BookStore.Application.Common.Interfaces;
-using BookStore.Domain.Entities;
+using FixHub.Application.Common.Interfaces;
+using FixHub.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 
-namespace BookStore.Application.Features.Auth.Commands.Login
+namespace FixHub.Application.Features.Auth.Commands.Login
 {
    public class LoginHandler: IRequestHandler<LoginCommand, LoginResponse>
     {

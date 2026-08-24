@@ -1,4 +1,4 @@
-﻿namespace BookStore.API.Middlewares
+﻿namespace FixHub.API.Middlewares
 {
     public class RequestLoggingMiddleware
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Common.Interfaces
+namespace FixHub.Application.Common.Interfaces
 {
     public interface ICurrentUserService
     {

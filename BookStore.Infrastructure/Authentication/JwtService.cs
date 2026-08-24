@@ -1,7 +1,7 @@
 ﻿
 
-using BookStore.Application.Common.Interfaces;
-using BookStore.Domain.Entities;
+using FixHub.Application.Common.Interfaces;
+using FixHub.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BookStore.Infrastructure.Authentication
+namespace FixHub.Infrastructure.Authentication
 {
     public class JwtService : IJwtService
     {

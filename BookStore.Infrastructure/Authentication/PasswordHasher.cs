@@ -1,7 +1,7 @@
-﻿using BookStore.Application.Common.Interfaces;
+﻿using FixHub.Application.Common.Interfaces;
 
 
-namespace BookStore.Infrastructure.Authentication
+namespace FixHub.Infrastructure.Authentication
 {
     public class PasswordHasher : IPasswordHasher
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace BookStore.Infrastructure.Persistence.Configurations
+namespace FixHub.Infrastructure.Persistence.Configurations
 {
     public class OrderConfiguration
     {

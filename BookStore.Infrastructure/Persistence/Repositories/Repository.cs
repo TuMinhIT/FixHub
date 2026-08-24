@@ -1,4 +1,4 @@
-﻿using BookStore.Domain.IRepositories;
+﻿using FixHub.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Infrastructure.Persistence.Repositories
+namespace FixHub.Infrastructure.Persistence.Repositories
 {
     public class Repository<T> : IRepository<T>
      where T : class

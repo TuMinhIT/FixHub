@@ -1,8 +1,8 @@
 ﻿
 
-using BookStore.Domain.IRepositories;
+using FixHub.Domain.IRepositories;
 
-namespace BookStore.Application.Common.Interfaces
+namespace FixHub.Application.Common.Interfaces
 {
     public interface IUnitOfWork
     {

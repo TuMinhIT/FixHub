@@ -1,7 +1,7 @@
-﻿using BookStore.Domain.Entities;
+﻿using FixHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookStore.Infrastructure.Persistence
+namespace FixHub.Infrastructure.Persistence
 {
     public class AppDbContext : DbContext
     {
@@ -10,10 +10,10 @@ namespace BookStore.Infrastructure.Persistence
 
         }
 
-        public DbSet<Book> Books { get; set; }
+        //public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<BookCategory> BookCategories { get; set; }
+        //public DbSet<BookCategory> BookCategories { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         //thì mọi cấu hình sẽ được đưa sang thư mục Configurations.

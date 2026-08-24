@@ -1,6 +1,6 @@
 ﻿
 
-namespace BookStore.Application.Features.Auth.Commands.RefreshToken
+namespace FixHub.Application.Features.Auth.Commands.RefreshToken
 {
     public class RefreshTokenResponse
     {

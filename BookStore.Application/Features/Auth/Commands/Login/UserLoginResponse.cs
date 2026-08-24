@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace BookStore.Application.Features.Auth.Commands.Login
+namespace FixHub.Application.Features.Auth.Commands.Login
 {
     public class UserLoginResponse
     {

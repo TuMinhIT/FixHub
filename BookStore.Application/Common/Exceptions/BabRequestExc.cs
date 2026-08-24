@@ -1,4 +1,4 @@
-﻿namespace BookStore.Application.Common.Exceptions;
+﻿namespace FixHub.Application.Common.Exceptions;
 
 public class BadRequestException : Exception
 {

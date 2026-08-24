@@ -1,8 +1,8 @@
-﻿using BookStore.Domain.Entities;
+﻿using FixHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BookStore.Infrastructure.Persistence.Configurations
+namespace FixHub.Infrastructure.Persistence.Configurations
 {
     public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     {

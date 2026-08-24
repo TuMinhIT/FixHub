@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Application.Common.Exceptions
+namespace FixHub.Application.Common.Exceptions
 {
     internal class UnauthorizedExc
     {

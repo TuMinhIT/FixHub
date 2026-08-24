@@ -1,7 +1,7 @@
 ﻿using MediatR;
 
 
-namespace BookStore.Application.Features.Auth.Commands.Login
+namespace FixHub.Application.Features.Auth.Commands.Login
 {
     public class LoginCommand:IRequest<LoginResponse>
     {

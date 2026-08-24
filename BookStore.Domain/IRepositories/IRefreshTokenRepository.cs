@@ -1,7 +1,7 @@
-﻿using BookStore.Domain.Entities;
+﻿using FixHub.Domain.Entities;
 
 
-namespace BookStore.Domain.IRepositories
+namespace FixHub.Domain.IRepositories
 {
     public interface IRefreshTokenRepository : IRepository<RefreshToken>
     {

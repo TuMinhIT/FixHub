@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BookStore.Application.Common.Interfaces;
+using FixHub.Application.Common.Interfaces;
 using MediatR;
 
-namespace BookStore.Application.Features.Users.Queries.GetAllUsers
+namespace FixHub.Application.Features.Users.Queries.GetAllUsers
 {
     public class GetAllUsersHandler
     : IRequestHandler<GetAllUserQuery, List<UserResponse>>

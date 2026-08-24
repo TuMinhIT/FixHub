@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookStore.Application\BookStore.Application.csproj" />
+    <ProjectReference Include="..\BookStore.Application\FixHub.Application.csproj" />
   </ItemGroup>
 
 </Project>

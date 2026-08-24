@@ -1,5 +1,5 @@
-﻿using BookStore.Domain.Entities;
-namespace BookStore.Domain.IRepositories
+﻿using FixHub.Domain.Entities;
+namespace FixHub.Domain.IRepositories
 {
     public interface IUserRepository: IRepository<User>
     {

@@ -1,4 +1,4 @@
-﻿using FixHub.Domain.Entities;
+using FixHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FixHub.Infrastructure.Persistence
@@ -7,22 +7,25 @@ namespace FixHub.Infrastructure.Persistence
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-
         }
 
-        //public DbSet<Book> Books { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<RepairService> RepairServices { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<KnowledgeArticle> KnowledgeArticles { get; set; }
+        
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        //public DbSet<BookCategory> BookCategories { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
-        //thì mọi cấu hình sẽ được đưa sang thư mục Configurations.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            // Enable vector extension for RAG
+            modelBuilder.HasPostgresExtension("vector");
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
-
-    } 
+    }
 }

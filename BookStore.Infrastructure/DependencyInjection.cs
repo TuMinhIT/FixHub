@@ -1,4 +1,4 @@
-﻿
+
 
 using FixHub.Application.Common.Interfaces;
 using FixHub.Domain.IRepositories;
@@ -20,12 +20,18 @@ namespace FixHub.Infrastructure
             // Register other infrastructure services here
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IKnowledgeArticleRepository, KnowledgeArticleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IJwtService, JwtService>();
+            
+            services.AddHttpClient<IRagEmbeddingService, FixHub.Infrastructure.RAG.GeminiEmbeddingService>();
 
             return services;
         }

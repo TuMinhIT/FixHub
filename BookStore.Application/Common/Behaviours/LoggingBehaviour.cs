@@ -2,14 +2,14 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace FixHub.Application.Common.Behavious
+namespace FixHub.Application.Common.Behaviours
 {
-    public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest :notnull
     {
-        private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
+        private readonly ILogger<LoggingBehaviour<TRequest, TResponse>> _logger;
 
-        public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
+        public LoggingBehaviour(ILogger<LoggingBehaviour<TRequest, TResponse>> logger)
         {
             _logger = logger;
         }

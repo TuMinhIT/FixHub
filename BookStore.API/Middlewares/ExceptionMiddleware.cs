@@ -43,7 +43,6 @@ namespace FixHub.API.Middlewares
                 // catch Validation của FluentValidation
                 ValidationException validationEx => 
                     ValidateAndFormatErrors(validationEx, out message, out errors),
-
                 BadRequestException => (int)HttpStatusCode.BadRequest,
                 UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
                 KeyNotFoundException => (int)HttpStatusCode.NotFound,

@@ -1,16 +1,16 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace FixHub.Application.Common.Behaviors;
+namespace FixHub.Application.Common.Behaviours;
 
-public class ExceptionBehavior<TRequest, TResponse>
+public class ExceptionBehaviour<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
-    private readonly ILogger<ExceptionBehavior<TRequest, TResponse>> _logger;
+    private readonly ILogger<ExceptionBehaviour<TRequest, TResponse>> _logger;
 
-    public ExceptionBehavior(
-        ILogger<ExceptionBehavior<TRequest, TResponse>> logger)
+    public ExceptionBehaviour(
+        ILogger<ExceptionBehaviour<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }

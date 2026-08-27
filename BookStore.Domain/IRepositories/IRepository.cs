@@ -7,6 +7,8 @@ namespace FixHub.Domain.IRepositories
     {
         IQueryable<T> GetAll();
         IQueryable<T> Find(Expression<Func<T, bool>> predicate);
+        Task<T> FindById(Guid id);
+
         Task<T> AddAsync(T entity);
         Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
 

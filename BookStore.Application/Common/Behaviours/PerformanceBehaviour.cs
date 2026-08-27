@@ -2,18 +2,18 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace FixHub.Application.Common.Behaviors;
+namespace FixHub.Application.Common.Behaviours;
 
-public class PerformanceBehavior<TRequest, TResponse>
+public class PerformanceBehaviour<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
     private readonly Stopwatch _timer = new();
 
-    private readonly ILogger<PerformanceBehavior<TRequest, TResponse>> _logger;
+    private readonly ILogger<PerformanceBehaviour<TRequest, TResponse>> _logger;
 
-    public PerformanceBehavior(
-        ILogger<PerformanceBehavior<TRequest, TResponse>> logger)
+    public PerformanceBehaviour(
+        ILogger<PerformanceBehaviour<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }

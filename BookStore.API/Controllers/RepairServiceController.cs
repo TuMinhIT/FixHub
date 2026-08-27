@@ -1,0 +1,12 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FixHub.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RepairServiceController(IMediator mediator) : ControllerBase
+    {
+    }
+}

@@ -1,8 +1,5 @@
 ﻿using FixHub.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +74,12 @@ namespace FixHub.Infrastructure.Persistence.Repositories
             await _dbSet.AddAsync(entity);
             return  entity;
             
+        }
+
+        public async Task<T> FindById(Guid id)
+        {
+            var result = await _dbSet.FindAsync(id);
+            return result;
         }
     }
 }

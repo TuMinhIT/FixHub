@@ -1,6 +1,5 @@
-﻿using FixHub.Application.Common.Behaviors;
-using FixHub.Application.Common.Behavious;
-using FluentValidation; // Thêm thư viện này
+﻿using FixHub.Application.Common.Behaviours;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -22,9 +21,9 @@ namespace FixHub.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             // Register Pipeline Behaviors
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
             return services;
         }

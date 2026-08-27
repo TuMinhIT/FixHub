@@ -1,8 +1,5 @@
 ﻿
 
-
-using FixHub.Application.Features.Auth;
-
 namespace FixHub.Application.Features.Auth.Commands.Login
 {
     public class LoginResponse

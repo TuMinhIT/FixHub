@@ -1,8 +1,7 @@
 ﻿using FixHub.Domain.Entities;
 using FixHub.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq.Expressions;
+
 
 namespace FixHub.Infrastructure.Persistence.Repositories
 {
@@ -11,7 +10,6 @@ namespace FixHub.Infrastructure.Persistence.Repositories
         public RefreshTokenRepository(AppDbContext context) : base(context)
         {
         }
-
         public async Task<RefreshToken?> GetByTokenAsync(string token)
         {
             return await _context.RefreshTokens.Include(x=>x.User).FirstOrDefaultAsync(rt =>rt.Token == token);

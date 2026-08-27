@@ -1,6 +1,5 @@
 ﻿using MediatR;
 
-
 namespace FixHub.Application.Features.Auth.Commands.Register
 {
     public class RegisterCommand : IRequest<RegisterResponse>

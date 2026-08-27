@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace FixHub.Infrastructure.Authentication
 {
@@ -30,26 +31,28 @@ namespace FixHub.Infrastructure.Authentication
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    var jwtSettings = configuration
+                        .GetSection(JwtSettings.SectionName)
+                        .Get<JwtSettings>()
+                        ?? throw new InvalidOperationException("JWT configuration is missing.");
+
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
+                    options.MapInboundClaims = true;
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        // Kiểm tra Issuer
                         ValidateIssuer = true,
                         ValidIssuer = jwtSettings.Issuer,
-
-                        // Kiểm tra Audience
                         ValidateAudience = true,
                         ValidAudience = jwtSettings.Audience,
-
-                        // Kiểm tra thời gian hết hạn
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-
-                        // Key dùng để verify JWT
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ClockSkew = TimeSpan.Zero
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                        ClockSkew = TimeSpan.Zero,
+                        NameClaimType = ClaimTypes.Name,
+                        RoleClaimType = ClaimTypes.Role
                     };
                 });
 
@@ -57,6 +60,8 @@ namespace FixHub.Infrastructure.Authentication
             return services;
         }
     }
+
+
 }
 
 

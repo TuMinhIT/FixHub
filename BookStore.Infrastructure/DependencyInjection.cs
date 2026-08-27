@@ -1,5 +1,3 @@
-
-
 using FixHub.Application.Common.Interfaces;
 using FixHub.Domain.IRepositories;
 using FixHub.Infrastructure.Authentication;
@@ -16,7 +14,8 @@ namespace FixHub.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), npgsql =>
+                    npgsql.UseVector()));
             // Register other infrastructure services here
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

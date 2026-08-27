@@ -1,6 +1,4 @@
-﻿
-
-using FixHub.Application.Common.Interfaces;
+﻿using FixHub.Application.Common.Interfaces;
 using FixHub.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -13,27 +11,27 @@ namespace FixHub.Infrastructure.Authentication
 {
     public class JwtService : IJwtService
     {
-
         private readonly JwtSettings _jwtSettings;
 
-        public JwtService(IOptions<JwtSettings> options )
+        public JwtService(IOptions<JwtSettings> options)
         {
             _jwtSettings = options.Value;
         }
+
         public string GenerateAccessToken(User user)
         {
+            var normalizedRole = string.IsNullOrWhiteSpace(user.Role)
+                ? "user"
+                : user.Role.Trim();
+
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-
                 new Claim(ClaimTypes.Name, user.Name),
-
-                new Claim(ClaimTypes.Role, user.Role),
-
+                new Claim(ClaimTypes.Role, normalizedRole),
+                new Claim("role", normalizedRole),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -50,24 +48,19 @@ namespace FixHub.Infrastructure.Authentication
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenMinutes),
                 signingCredentials: credentials);
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public RefreshToken GenerateRefreshToken(User user )
+        public RefreshToken GenerateRefreshToken(User user)
         {
             return new RefreshToken
             {
                 Id = Guid.NewGuid(),
-                UserId= user.Id,
-
-                Token = Convert.ToBase64String(
-                    RandomNumberGenerator.GetBytes(64)),
-
+                UserId = user.Id,
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
                 CreatedAt = DateTime.UtcNow,
-
-                ExpiresAt = DateTime.UtcNow.AddDays(
-                    _jwtSettings.RefreshTokenDays)
-               
+                ExpiresAt = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenDays)
             };
         }
     }

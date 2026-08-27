@@ -7,19 +7,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auth\Commands\RevokeToken\" />
-    <Folder Include="Features\Auth\Queries\" />
-    <Folder Include="Features\Books\Commands\Delete\" />
-    <Folder Include="Features\Books\Commands\Update\" />
-    <Folder Include="Features\Books\DTOs\" />
-    <Folder Include="Features\Books\Queries\GetById\" />
-    <Folder Include="Features\Books\Queries\GetAll\" />
-    <Folder Include="Common\Constants\" />
-    <Folder Include="Features\BookCategories\" />
-    <Folder Include="Features\Books\Queries\SearchBooks\" />
-    <Folder Include="Features\Orders\" />
-    <Folder Include="Features\Users\Commands\UpdateProfile\" />
-    <Folder Include="Features\Users\Queries\GetCurrentUser\" />
+    <Compile Remove="Common\Constants\**" />
+    <Compile Remove="Features\Auth\Commands\RevokeToken\**" />
+    <Compile Remove="Features\Auth\Queries\**" />
+    <Compile Remove="Features\BookCategories\**" />
+    <Compile Remove="Features\Orders\**" />
+    <Compile Remove="Features\Users\Commands\UpdateProfile\**" />
+    <Compile Remove="Features\Users\Queries\GetCurrentUser\**" />
+    <EmbeddedResource Remove="Common\Constants\**" />
+    <EmbeddedResource Remove="Features\Auth\Commands\RevokeToken\**" />
+    <EmbeddedResource Remove="Features\Auth\Queries\**" />
+    <EmbeddedResource Remove="Features\BookCategories\**" />
+    <EmbeddedResource Remove="Features\Orders\**" />
+    <EmbeddedResource Remove="Features\Users\Commands\UpdateProfile\**" />
+    <EmbeddedResource Remove="Features\Users\Queries\GetCurrentUser\**" />
+    <None Remove="Common\Constants\**" />
+    <None Remove="Features\Auth\Commands\RevokeToken\**" />
+    <None Remove="Features\Auth\Queries\**" />
+    <None Remove="Features\BookCategories\**" />
+    <None Remove="Features\Orders\**" />
+    <None Remove="Features\Users\Commands\UpdateProfile\**" />
+    <None Remove="Features\Users\Queries\GetCurrentUser\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Categories\Commands\" />
+    <Folder Include="Features\Categories\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

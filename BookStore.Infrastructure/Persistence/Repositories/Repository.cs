@@ -19,7 +19,7 @@ namespace FixHub.Infrastructure.Persistence.Repositories
 
         public IQueryable<T> GetAll()
         {
-            return _dbSet;
+            return _dbSet.AsNoTracking();
         }
 
         public async Task<T?> GetByIdAsync(Guid id)

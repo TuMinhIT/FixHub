@@ -1,5 +1,3 @@
-using System;
-using Pgvector;
 
 namespace FixHub.Domain.Entities
 {
@@ -14,6 +12,6 @@ namespace FixHub.Domain.Entities
         /// <summary>
         /// The vector embedding used for semantic search (RAG)
         /// </summary>
-        public Vector? Embedding { get; set; }
+        //public Vector? Embedding { get; set; }
     }
 }

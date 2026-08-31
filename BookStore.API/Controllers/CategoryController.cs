@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/category")]
+    [Route("api/categories")]
     public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;

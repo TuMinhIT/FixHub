@@ -18,5 +18,7 @@ namespace FixHub.Domain.Entities
         public Address? Address { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
+        public Payment? Payment { get; set; }
     }
 }

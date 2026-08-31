@@ -13,9 +13,15 @@ namespace FixHub.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), npgsql =>
-                    npgsql.UseVector()));
+            services.AddDbContext<AppDbContext>(
+                options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")
+                    //npgsql =>
+                    //    npgsql.UseVector()
+
+                    )
+
+                );
             // Register other infrastructure services here
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

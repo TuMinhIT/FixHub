@@ -14,6 +14,7 @@ namespace FixHub.Infrastructure.Persistence
         public DbSet<RepairService> RepairServices { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<KnowledgeArticle> KnowledgeArticles { get; set; }
         
         public DbSet<User> Users { get; set; }
@@ -23,8 +24,6 @@ namespace FixHub.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Enable vector extension for RAG
-            modelBuilder.HasPostgresExtension("vector");
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }

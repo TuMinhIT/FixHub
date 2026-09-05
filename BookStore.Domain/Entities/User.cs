@@ -11,6 +11,9 @@
         public string Role { get; set; } = "User";
         public bool IsActive { get; set; } = true;
 
+        public string? gender { get; set; }
+        public DateTime? dob { get; set; }
+
         public DateTime CreateAt { get; set; }
         = DateTime.UtcNow;
         public DateTime? UpdateAt { get; set; }

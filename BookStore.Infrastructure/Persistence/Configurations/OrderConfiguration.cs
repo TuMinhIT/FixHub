@@ -8,19 +8,17 @@ namespace FixHub.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.HasKey(o => o.Id);
-            builder.Property(o => o.TotalAmount).HasColumnType("decimal(18,2)");
-            builder.Property(o => o.Status).IsRequired().HasMaxLength(50);
-            
-            builder.HasOne(o => o.User)
-                   .WithMany()
-                   .HasForeignKey(o => o.UserId)
-                   .OnDelete(DeleteBehavior.Restrict);
+            builder.HasKey(x => x.Id);
 
-            builder.HasOne(o => o.Address)
-                   .WithMany()
-                   .HasForeignKey(o => o.AddressId)
-                   .OnDelete(DeleteBehavior.SetNull);
+            builder.HasIndex(x => new
+            {
+                x.UserId,
+                x.IdempotencyKey
+            })
+            .IsUnique()
+            .HasFilter("\"IdempotencyKey\" IS NOT NULL");
+
+            builder.Property(x => x.IdempotencyKey).HasMaxLength(255);
         }
     }
 }

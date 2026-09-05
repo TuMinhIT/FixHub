@@ -1,76 +1,80 @@
-﻿//using FixHub.Application.Common.Interfaces;
-//using FixHub.Domain.IRepositories;
-//using MediatR;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using FixHub.Application.Common.Exceptions;
+using FixHub.Application.Common.Interfaces;
+using FixHub.Domain.Entities;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-//namespace FixHub.Application.Payment.Command
-//{
-//    public sealed class CreatePaymentCommandHandler
-//    : IRequestHandler<CreatePaymentCommand, CreatePaymentResponse>
-//    {
-//        private readonly IOrderRepository _orderRepository;
-//        private readonly IPaymentRepository _paymentRepository;
-//        private readonly IPaymentRepository _paymentGateway;
-//        private readonly IUnitOfWork _unitOfWork;
+namespace FixHub.Application.Payment.Command
+{
+    public sealed class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, CreatePaymentResponse>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaymentGateway _paymentGateway;
 
-//        public CreatePaymentCommandHandler(
-//            IOrderRepository orderRepository,
-//            IPaymentRepository paymentRepository,
-//            IPaymentRepository paymentGateway,
-//            IUnitOfWork unitOfWork)
-//        {
-//            _orderRepository = orderRepository;
-//            _paymentRepository = paymentRepository;
-//            _paymentGateway = paymentGateway;
-//            _unitOfWork = unitOfWork;
-//        }
+        public CreatePaymentCommandHandler(IUnitOfWork unitOfWork, IPaymentGateway paymentGateway)
+        {
+            _unitOfWork = unitOfWork;
+            _paymentGateway = paymentGateway;
+        }
 
-//        public async Task<CreatePaymentResult> Handle(
-//            CreatePaymentCommand request,
-//            CancellationToken cancellationToken)
-//        {
-//            var order = await _orderRepository.GetByIdAsync(
-//                request.OrderId,
-//                cancellationToken);
+        public async Task<CreatePaymentResponse> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+        {
+            var order = await _unitOfWork.OrderRepository
+                .GetAll()
+                .Include(o => o.OrderDetails)
+                .FirstOrDefaultAsync(o => o.Id == request.OrderId, cancellationToken);
 
-//            if (order is null)
-//                throw new Exception("Order not found");
+            if (order == null)
+            {
+                throw new NotFoundException(nameof(Order), request.OrderId);
+            }
 
-//            if (order.Status != OrderStatus.PendingPayment)
-//                throw new Exception("Order cannot be paid");
+            if (order.Status == "Paid")
+            {
+                throw new BadRequestException("Order is already paid.");
+            }
 
-//            var invoiceNumber =
-//                $"ORDER_{order.Id:N}_{DateTime.UtcNow:yyyyMMddHHmmss}";
+            var idempotencyKey = string.IsNullOrWhiteSpace(request.IdempotencyKey)
+                ? $"payment:{request.OrderId}"
+                : request.IdempotencyKey.Trim();
 
-//            var payment = Payment.Create(
-//                order.Id,
-//                order.TotalAmount,
-//                invoiceNumber);
+            var existingPayment = await _unitOfWork.PaymentRepository
+                .GetAll()
+                .FirstOrDefaultAsync(
+                    p => p.OrderId == order.Id || p.IdempotencyKey == idempotencyKey,
+                    cancellationToken);
 
-//            await _paymentRepository.AddAsync(
-//                payment,
-//                cancellationToken);
+            if (existingPayment != null)
+            {
+                return new CreatePaymentResponse(
+                    existingPayment.Id,
+                    existingPayment.CheckoutUrl ?? string.Empty,
+                    existingPayment.GetCheckoutFields());
+            }
 
-//            var checkout = await _paymentGateway.CreateCheckoutAsync(
-//                new PaymentCheckoutRequest(
-//                    InvoiceNumber: invoiceNumber,
-//                    Amount: payment.Amount,
-//                    Description: $"Thanh toan don hang {order.Id}",
-//                    SuccessUrl: "https://yourfrontend.com/payment/success",
-//                    ErrorUrl: "https://yourfrontend.com/payment/error",
-//                    CancelUrl: "https://yourfrontend.com/payment/cancel"),
-//                cancellationToken);
+            var invoiceNumber = $"ORDER_{order.Id:N}_{DateTime.UtcNow:yyyyMMddHHmmss}";
+            var payment = FixHub.Domain.Entities.Payment.Create(order.Id, order.TotalAmount, invoiceNumber, idempotencyKey);
 
-//            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.PaymentRepository.AddAsync(payment);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-//            return new CreatePaymentResult(
-//                payment.Id,
-//                checkout.CheckoutUrl,
-//                checkout.Fields);
-//        }
-//    }
-//}
+            var createdCheckout = await _paymentGateway.CreateCheckoutAsync(
+                new PaymentCheckoutRequest(
+                    invoiceNumber,
+                    payment.Amount,
+                    $"Thanh toán đơn hàng {order.Id}",
+                    "https://localhost:5001/payment/success",
+                    "https://localhost:5001/payment/error",
+                    "https://localhost:5001/payment/cancel"),
+                cancellationToken);
+
+            payment.SetCheckoutData(createdCheckout.CheckoutUrl, createdCheckout.Fields);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return new CreatePaymentResponse(
+                payment.Id,
+                payment.CheckoutUrl ?? string.Empty,
+                payment.GetCheckoutFields());
+        }
+    }
+}

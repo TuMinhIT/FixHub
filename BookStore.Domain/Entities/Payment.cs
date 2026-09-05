@@ -1,4 +1,7 @@
-﻿namespace FixHub.Domain.Entities
+﻿using System.Collections.Generic;
+using System.Text.Json;
+
+namespace FixHub.Domain.Entities
 {
     public enum PaymentStatus
     {
@@ -31,6 +34,12 @@
 
         public string? GatewayTransactionId { get; private set; }
 
+        public string? IdempotencyKey { get; private set; }
+
+        public string? CheckoutUrl { get; private set; }
+
+        public string? CheckoutFieldsJson { get; private set; }
+
         public DateTime CreatedAt { get; private set; }
 
         public DateTime? PaidAt { get; private set; }
@@ -42,7 +51,8 @@
         public static Payment Create(
             Guid orderId,
             decimal amount,
-            string invoiceNumber)
+            string invoiceNumber,
+            string? idempotencyKey = null)
         {
             return new Payment
             {
@@ -52,6 +62,9 @@
                 InvoiceNumber = invoiceNumber,
                 Method = PaymentMethod.SePay,
                 Status = PaymentStatus.Pending,
+                IdempotencyKey = string.IsNullOrWhiteSpace(idempotencyKey)
+                    ? Guid.NewGuid().ToString("N")
+                    : idempotencyKey.Trim(),
                 CreatedAt = DateTime.UtcNow
             };
         }
@@ -64,6 +77,28 @@
             GatewayTransactionId = transactionId;
             Status = PaymentStatus.Success;
             PaidAt = DateTime.UtcNow;
+        }
+
+        public void SetCheckoutData(string checkoutUrl, IReadOnlyDictionary<string, string> fields)
+        {
+            CheckoutUrl = checkoutUrl;
+            CheckoutFieldsJson = JsonSerializer.Serialize(fields ?? new Dictionary<string, string>());
+        }
+
+        public IReadOnlyDictionary<string, string> GetCheckoutFields()
+        {
+            if (string.IsNullOrWhiteSpace(CheckoutFieldsJson))
+                return new Dictionary<string, string>();
+
+            try
+            {
+                var values = JsonSerializer.Deserialize<Dictionary<string, string>>(CheckoutFieldsJson);
+                return values ?? new Dictionary<string, string>();
+            }
+            catch
+            {
+                return new Dictionary<string, string>();
+            }
         }
     }
 }

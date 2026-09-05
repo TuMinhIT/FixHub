@@ -10,8 +10,19 @@ namespace FixHub.Application.Common.Interfaces
         ICategoryRepository CategoryRepository { get; }
         IServiceRepository ServiceRepository { get; }
         IOrderRepository OrderRepository { get; }
+        IPaymentRepository PaymentRepository { get; }
+        IAddressRepository AddressRepository { get; }
         IKnowledgeArticleRepository KnowledgeArticleRepository { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+        Task BeginTransactionAsync(
+            CancellationToken cancellationToken = default);
+
+        Task CommitTransactionAsync(
+            CancellationToken cancellationToken = default);
+
+        Task RollbackTransactionAsync(
+            CancellationToken cancellationToken = default);
     }
 }

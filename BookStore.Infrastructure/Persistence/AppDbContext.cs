@@ -1,5 +1,6 @@
 using FixHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using PaymentEntity = FixHub.Domain.Entities.Payment;
 
 namespace FixHub.Infrastructure.Persistence
 {
@@ -14,7 +15,7 @@ namespace FixHub.Infrastructure.Persistence
         public DbSet<RepairService> RepairServices { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentEntity> Payments { get; set; }
         public DbSet<KnowledgeArticle> KnowledgeArticles { get; set; }
         
         public DbSet<User> Users { get; set; }

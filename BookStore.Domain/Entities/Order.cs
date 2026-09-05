@@ -16,6 +16,7 @@ namespace FixHub.Domain.Entities
         public string? Note { get; set; }
         public Guid? AddressId { get; set; }
         public Address? Address { get; set; }
+        public string? IdempotencyKey { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

@@ -5,8 +5,6 @@ using FixHub.Infrastructure;
 using FixHub.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
-
-    
 namespace FixHub.API
 {
     public class Program
@@ -14,7 +12,7 @@ namespace FixHub.API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-       
+
             // Add application services
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructure(builder.Configuration);
@@ -51,6 +49,18 @@ namespace FixHub.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy
+                        .WithOrigins("https://localhost:5173", "http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -59,15 +69,13 @@ namespace FixHub.API
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowFrontend");
             app.UseMiddleware<ExceptionMiddleware>();
-
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
-
             app.MapGet("/", () => "Hello World!");
 
             app.Run();

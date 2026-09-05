@@ -49,10 +49,15 @@ namespace FixHub.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateOrder(
+            [FromBody] CreateOrderCommand command,
+            [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey,
+            CancellationToken cancellationToken)
         {
+            command.IdempotencyKey ??= idempotencyKey;
+
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(new ApiResponse<Guid>(response, "Order created successfully"));
+            return Ok(new ApiResponse<CreateOrderResponse>(response, "Order created successfully"));
         }
 
         [HttpPatch("{id}/status")]

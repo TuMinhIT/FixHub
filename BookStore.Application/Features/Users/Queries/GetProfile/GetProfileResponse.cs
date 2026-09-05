@@ -15,6 +15,8 @@ namespace FixHub.Application.Features.Users.Queries.GetProfile
         public string? PhoneNumber { get; set; }
         public string? Avatar { get; set; }
         public bool IsActive { get; set; } = true;
+        public string Gender { get; set; }
+        public DateTime Dob { get; set; }
 
         public DateTime CreateAt { get; set; }
         = DateTime.UtcNow;

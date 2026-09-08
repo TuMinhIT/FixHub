@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Exceptions;
+using FixHub.Domain.Entities;
 using MediatR;
 
 
@@ -21,6 +23,8 @@ namespace FixHub.Application.Features.Users.Queries.GetProfile
         {
           var userId = _currentUserService.UserId;
           var user =  await _unitOfWork.UserRepository.FindById(userId);
+            if (user == null)
+                throw new NotFoundException(nameof(User), userId);
             return _mapper.Map<GetProfileResponse>(user);
         }
     }

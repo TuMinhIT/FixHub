@@ -29,7 +29,7 @@ namespace FixHub.Application.Features.Addresses.Commands.DeleteAddress
 
             if (address.UserId != _currentUserService.UserId)
             {
-                throw new UnauthorizedAccessException("You do not own this address.");
+                throw new ForbiddenException("You do not own this address.");
             }
 
             await _unitOfWork.AddressRepository.DeleteAsync(request.Id);

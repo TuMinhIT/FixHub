@@ -23,6 +23,7 @@ namespace FixHub.API.Controllers
         }
 
         [HttpGet("my")]
+        [HttpGet("/api/v1/me/addresses")]
         [Authorize]
         public async Task<IActionResult> GetMyAddresses(CancellationToken cancellationToken)
         {
@@ -31,6 +32,7 @@ namespace FixHub.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [HttpGet("/api/v1/me/addresses/{id:guid}")]
         [Authorize]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -39,6 +41,7 @@ namespace FixHub.API.Controllers
         }
 
         [HttpPost]
+        [HttpPost("/api/v1/me/addresses")]
         [Authorize]
         public async Task<IActionResult> CreateAddress([FromBody] CreateAddressCommand command, CancellationToken cancellationToken)
         {
@@ -47,6 +50,7 @@ namespace FixHub.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [HttpPut("/api/v1/me/addresses/{id:guid}")]
         [Authorize]
         public async Task<IActionResult> UpdateAddress(Guid id, [FromBody] UpdateAddressCommand command, CancellationToken cancellationToken)
         {
@@ -60,6 +64,7 @@ namespace FixHub.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [HttpDelete("/api/v1/me/addresses/{id:guid}")]
         [Authorize]
         public async Task<IActionResult> DeleteAddress(Guid id, CancellationToken cancellationToken)
         {

@@ -14,7 +14,6 @@ namespace FixHub.API.Controllers
     {
         [HttpGet("all")]
         [Authorize(Roles ="Admin")]
-        //[Authorize]
         public async Task<IActionResult> getAllUser(CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetAllUserQuery(), cancellationToken);
@@ -22,6 +21,7 @@ namespace FixHub.API.Controllers
         }
 
         [HttpPut("profile")]
+        [HttpPut("/api/v1/me")]
         [Authorize]
         public async Task<IActionResult> updateUserProfile([FromBody] UpdateProfileCommand command, CancellationToken cancellationToken)
         {
@@ -30,6 +30,7 @@ namespace FixHub.API.Controllers
         }
 
         [HttpGet("profile")]
+        [HttpGet("/api/v1/me")]
         [Authorize]
         public async Task<IActionResult> getUserProfile(CancellationToken cancellationToken)
         {

@@ -29,8 +29,6 @@ namespace FixHub.Application.Features.Users.Commands.UpdateInfo
             var userId = _currentUserService.UserId;
             var user = await _unitOfWork.UserRepository.FindById(userId);
 
-            Console.WriteLine(user);
-
             if (user == null)
             {
                 throw new NotFoundException(nameof(User), userId);
@@ -38,6 +36,23 @@ namespace FixHub.Application.Features.Users.Commands.UpdateInfo
 
             user.Name = request.Name.Trim();
             user.PhoneNumber = string.IsNullOrWhiteSpace(request.PhoneNumber) ? user.PhoneNumber : request.PhoneNumber.Trim();
+            user.Gender = string.IsNullOrWhiteSpace(request.Gender) ? user.Gender : request.Gender.Trim();
+
+            if (request.Dob.HasValue)
+            {
+                var dob = request.Dob.Value;
+
+                if (dob.Kind == DateTimeKind.Unspecified)
+                {
+                    dob = DateTime.SpecifyKind(dob, DateTimeKind.Utc);
+                }
+                else if (dob.Kind == DateTimeKind.Local)
+                {
+                    dob = dob.ToUniversalTime();
+                }
+
+                user.Dob = dob;
+            }
 
             if (!string.IsNullOrWhiteSpace(request.Avatar))
             {
@@ -45,9 +60,7 @@ namespace FixHub.Application.Features.Users.Commands.UpdateInfo
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             return _mapper.Map<UpdateProfileResponse>(user);
-  
         }
     }
 }

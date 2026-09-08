@@ -19,7 +19,10 @@ namespace FixHub.Application.Features.Categories.Queries.GetAllCategories
 
         public async Task<List<CategoryResponse>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _unitOfWork.CategoryRepository.GetAll().ToListAsync(cancellationToken);
+            var categories = await _unitOfWork.CategoryRepository.GetAll()
+                .Where(x => x.IsActive)
+                .OrderBy(x => x.Name)
+                .ToListAsync(cancellationToken);
             return _mapper.Map<List<CategoryResponse>>(categories);
         }
     }

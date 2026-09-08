@@ -18,7 +18,7 @@ namespace FixHub.Application.Features.RepairServices.Commands.UpdateRepairServic
         public async Task<bool> Handle(UpdateRepairServiceCommand request, CancellationToken cancellationToken)
         {
             var service = await _unitOfWork.ServiceRepository.FindById(request.Id);
-            if (service == null) throw new Exception("Service not found");
+            if (service == null) throw new FixHub.Application.Common.Exceptions.NotFoundException(nameof(FixHub.Domain.Entities.RepairService), request.Id);
             
             _mapper.Map(request, service);
             await _unitOfWork.ServiceRepository.UpdateAsync(service);

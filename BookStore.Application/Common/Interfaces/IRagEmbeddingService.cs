@@ -9,6 +9,6 @@ namespace FixHub.Application.Common.Interfaces
         /// </summary>
         /// <param name="text">The input text (e.g., search query or article content).</param>
         /// <returns>A float array representing the vector embedding.</returns>
-        Task<float[]> GenerateEmbeddingAsync(string text);
+        Task<float[]> GenerateEmbeddingAsync(string text, CancellationToken cancellationToken = default);
     }
 }

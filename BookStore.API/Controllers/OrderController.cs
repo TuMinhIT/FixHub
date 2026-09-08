@@ -1,6 +1,7 @@
 using FixHub.Application.Common.Models;
 using FixHub.Application.Features.Orders.Commands.CreateOrder;
 using FixHub.Application.Features.Orders.Commands.DeleteOrder;
+using FixHub.Application.Features.Orders.Commands.CancelOrder;
 using FixHub.Application.Features.Orders.Commands.UpdateOrderStatus;
 using FixHub.Application.Features.Orders.DTOs;
 using FixHub.Application.Features.Orders.Queries.GetAllOrders;
@@ -14,6 +15,7 @@ namespace FixHub.API.Controllers
 {
     [ApiController]
     [Route("api/order")]
+    [Route("api/v1/orders")]
     public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -31,7 +33,7 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<List<OrderResponse>>(response));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         [Authorize]
         public async Task<IActionResult> GetOrderById(Guid id, CancellationToken cancellationToken)
         {
@@ -47,6 +49,38 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<List<OrderResponse>>(response));
         }
 
+        [HttpGet("my")]
+        [Authorize]
+        public async Task<IActionResult> GetMyOrders(CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetMyOrdersQuery(Guid.Empty), cancellationToken);
+            return Ok(new ApiResponse<List<OrderResponse>>(response));
+        }
+
+        [HttpGet("/api/v1/me/orders")]
+        [Authorize]
+        public async Task<IActionResult> GetMyOrdersV1(CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetMyOrdersQuery(Guid.Empty), cancellationToken);
+            return Ok(new ApiResponse<List<OrderResponse>>(response));
+        }
+
+        [HttpGet("/api/v1/me/orders/{id:guid}")]
+        [Authorize]
+        public async Task<IActionResult> GetMyOrderByIdV1(Guid id, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetOrderByIdQuery(id), cancellationToken);
+            return Ok(new ApiResponse<OrderResponse>(response));
+        }
+
+        [HttpPost("{id:guid}/cancel")]
+        [Authorize]
+        public async Task<IActionResult> CancelOrder(Guid id, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new CancelOrderCommand(id), cancellationToken);
+            return Ok(new ApiResponse<bool>(response, "Order cancelled successfully"));
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateOrder(
@@ -60,7 +94,7 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<CreateOrderResponse>(response, "Order created successfully"));
         }
 
-        [HttpPatch("{id}/status")]
+        [HttpPatch("{id:guid}/status")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] UpdateOrderStatusCommand command, CancellationToken cancellationToken)
         {
@@ -69,7 +103,7 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<bool>(response, "Order status updated successfully"));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteOrder(Guid id, CancellationToken cancellationToken)
         {

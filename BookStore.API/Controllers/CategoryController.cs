@@ -13,6 +13,7 @@ namespace FixHub.API.Controllers
 {
     [ApiController]
     [Route("api/categories")]
+    [Route("api/v1/categories")]
     public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;

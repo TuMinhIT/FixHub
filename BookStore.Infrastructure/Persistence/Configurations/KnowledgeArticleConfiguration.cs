@@ -10,10 +10,15 @@ namespace FixHub.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(k => k.Id);
             builder.Property(k => k.Title).IsRequired().HasMaxLength(255);
-            
-            // Assuming 768 dimensions for embedding (can be 1536 for OpenAI, 768 for some open source models)
-            //builder.Property(k => k.Embedding)
-            //       .HasColumnType("vector(768)");
+            builder.Property(k => k.Content).IsRequired().HasColumnType("text");
+            builder.Property(k => k.Status).IsRequired().HasMaxLength(50)
+                .HasDefaultValue(KnowledgeArticleStatuses.Published);
+            builder.Property(k => k.Source).HasMaxLength(500);
+            builder.Property(k => k.Version).HasDefaultValue(1);
+            builder.HasMany(k => k.Chunks)
+                .WithOne(c => c.Article)
+                .HasForeignKey(c => c.ArticleId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

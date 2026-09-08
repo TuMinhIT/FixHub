@@ -19,7 +19,10 @@ namespace FixHub.Application.Features.RepairServices.Queries.GetAllRepairService
 
         public async Task<List<RepairServiceResponse>> Handle(GetAllRepairServicesQuery request, CancellationToken cancellationToken)
         {
-            var services = await _unitOfWork.ServiceRepository.GetAll().ToListAsync(cancellationToken);
+            var services = await _unitOfWork.ServiceRepository.GetAll()
+                .Where(x => x.IsActive)
+                .OrderBy(x => x.Name)
+                .ToListAsync(cancellationToken);
             return _mapper.Map<List<RepairServiceResponse>>(services);
         }
     }

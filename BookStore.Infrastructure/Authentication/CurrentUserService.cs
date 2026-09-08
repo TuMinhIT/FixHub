@@ -24,20 +24,25 @@ namespace FixHub.Infrastructure.Authentication
                     .FindFirst(ClaimTypes.NameIdentifier)?
                     .Value;
 
-                return Guid.Parse(value!);
+                if (!Guid.TryParse(value, out var userId))
+                    throw new UnauthorizedAccessException("Authenticated user id is missing or invalid.");
+
+                return userId;
             }
         }
 
+        public Guid? UserIdOrNull => IsAuthenticated && Guid.TryParse(
+            _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+            out var userId) ? userId : null;
+
+        public bool IsAuthenticated => _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true;
+
         public string Email =>
-            _httpContextAccessor.HttpContext?
-                .User
-                .FindFirst(ClaimTypes.Email)?
-                .Value!;
+            _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value
+            ?? throw new UnauthorizedAccessException("Authenticated email is missing.");
 
         public string Role =>
-            _httpContextAccessor.HttpContext?
-                .User
-                .FindFirst(ClaimTypes.Role)?
-                .Value!;
+            _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role)?.Value
+            ?? throw new UnauthorizedAccessException("Authenticated role is missing.");
     }
 }

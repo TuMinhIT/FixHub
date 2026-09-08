@@ -2,6 +2,8 @@ using FixHub.Application.Common.Models;
 using FixHub.Application.Features.Products.Commands.CreateProduct;
 using FixHub.Application.Features.Products.Commands.DeleteProduct;
 using FixHub.Application.Features.Products.Commands.UpdateProduct;
+using FixHub.Application.Features.Products.Commands.AddProductImage;
+using FixHub.Application.Features.Products.Commands.DeleteProductImage;
 using FixHub.Application.Features.Products.DTOs;
 using FixHub.Application.Features.Products.Queries.GetAllProducts;
 using FixHub.Application.Features.Products.Queries.GetProductById;
@@ -13,6 +15,7 @@ namespace FixHub.API.Controllers
 {
     [ApiController]
     [Route("api/product")]
+    [Route("api/v1/products")]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -23,10 +26,10 @@ namespace FixHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsQuery query, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetAllProductsQuery(), cancellationToken);
-            return Ok(new ApiResponse<List<ProductResponse>>(response));
+            var response = await _mediator.Send(query, cancellationToken);
+            return Ok(new ApiResponse<Pagination<ProductResponse>>(response));
         }
 
         [HttpGet("{id}")]
@@ -60,5 +63,30 @@ namespace FixHub.API.Controllers
             var response = await _mediator.Send(new DeleteProductCommand(id), cancellationToken);
             return Ok(new ApiResponse<bool>(response, "Product deleted successfully"));
         }
+
+        [HttpPost("{productId:guid}/images")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddImage(Guid productId, [FromBody] AddProductImageRequest request, CancellationToken cancellationToken)
+        {
+            var id = await _mediator.Send(
+                new AddProductImageCommand(productId, request.ImageUrl, request.PublicId, request.IsPrimary),
+                cancellationToken);
+            return Ok(new ApiResponse<Guid>(id, "Product image added successfully"));
+        }
+
+        [HttpDelete("{productId:guid}/images/{imageId:guid}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteImage(Guid productId, Guid imageId, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new DeleteProductImageCommand(productId, imageId), cancellationToken);
+            return Ok(new ApiResponse<bool>(response, "Product image deleted successfully"));
+        }
+    }
+
+    public sealed class AddProductImageRequest
+    {
+        public string ImageUrl { get; set; } = string.Empty;
+        public string? PublicId { get; set; }
+        public bool IsPrimary { get; set; }
     }
 }

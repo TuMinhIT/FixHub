@@ -10,11 +10,13 @@ namespace FixHub.Application.Payment.Command
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPaymentGateway _paymentGateway;
+        private readonly ICurrentUserService _currentUserService;
 
-        public CreatePaymentCommandHandler(IUnitOfWork unitOfWork, IPaymentGateway paymentGateway)
+        public CreatePaymentCommandHandler(IUnitOfWork unitOfWork, IPaymentGateway paymentGateway, ICurrentUserService currentUserService)
         {
             _unitOfWork = unitOfWork;
             _paymentGateway = paymentGateway;
+            _currentUserService = currentUserService;
         }
 
         public async Task<CreatePaymentResponse> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -29,10 +31,16 @@ namespace FixHub.Application.Payment.Command
                 throw new NotFoundException(nameof(Order), request.OrderId);
             }
 
-            if (order.Status == "Paid")
+            if (order.UserId != _currentUserService.UserId
+                && !string.Equals(_currentUserService.Role, "Admin", StringComparison.OrdinalIgnoreCase))
+                throw new ForbiddenException("You do not have access to this order.");
+
+            if (order.Status == OrderStatuses.Paid)
             {
                 throw new BadRequestException("Order is already paid.");
             }
+            if (order.Status != OrderStatuses.PendingPayment)
+                throw new BadRequestException($"Payment cannot be created for order status {order.Status}.");
 
             var idempotencyKey = string.IsNullOrWhiteSpace(request.IdempotencyKey)
                 ? $"payment:{request.OrderId}"
@@ -40,9 +48,7 @@ namespace FixHub.Application.Payment.Command
 
             var existingPayment = await _unitOfWork.PaymentRepository
                 .GetAll()
-                .FirstOrDefaultAsync(
-                    p => p.OrderId == order.Id || p.IdempotencyKey == idempotencyKey,
-                    cancellationToken);
+                .FirstOrDefaultAsync(p => p.OrderId == order.Id, cancellationToken);
 
             if (existingPayment != null)
             {
@@ -50,7 +56,12 @@ namespace FixHub.Application.Payment.Command
                     existingPayment.Id,
                     existingPayment.CheckoutUrl ?? string.Empty,
                     existingPayment.GetCheckoutFields());
-            }
+                }
+
+            var keyAlreadyUsed = await _unitOfWork.PaymentRepository.GetAll()
+                .AnyAsync(p => p.IdempotencyKey == idempotencyKey && p.OrderId != order.Id, cancellationToken);
+            if (keyAlreadyUsed)
+                throw new BadRequestException("Idempotency key has already been used for another payment.");
 
             var invoiceNumber = $"ORDER_{order.Id:N}_{DateTime.UtcNow:yyyyMMddHHmmss}";
             var payment = FixHub.Domain.Entities.Payment.Create(order.Id, order.TotalAmount, invoiceNumber, idempotencyKey);
@@ -63,9 +74,9 @@ namespace FixHub.Application.Payment.Command
                     invoiceNumber,
                     payment.Amount,
                     $"Thanh toán đơn hàng {order.Id}",
-                    "https://localhost:5001/payment/success",
-                    "https://localhost:5001/payment/error",
-                    "https://localhost:5001/payment/cancel"),
+                    _paymentGateway.CheckoutUrls.SuccessUrl,
+                    _paymentGateway.CheckoutUrls.ErrorUrl,
+                    _paymentGateway.CheckoutUrls.CancelUrl),
                 cancellationToken);
 
             payment.SetCheckoutData(createdCheckout.CheckoutUrl, createdCheckout.Fields);

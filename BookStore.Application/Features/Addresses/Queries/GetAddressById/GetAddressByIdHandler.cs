@@ -30,7 +30,7 @@ namespace FixHub.Application.Features.Addresses.Queries.GetAddressById
 
             if (address.UserId != _currentUserService.UserId)
             {
-                throw new UnauthorizedAccessException("You do not own this address.");
+                throw new ForbiddenException("You do not own this address.");
             }
 
             return new AddressResponse

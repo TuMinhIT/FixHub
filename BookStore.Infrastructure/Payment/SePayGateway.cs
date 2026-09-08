@@ -8,6 +8,11 @@ namespace FixHub.Infrastructure.Payment
     {
         private readonly SePayOptions _options;
 
+        public PaymentCheckoutUrls CheckoutUrls => new(
+            _options.SuccessUrl,
+            _options.ErrorUrl,
+            _options.CancelUrl);
+
         public SePayGateway(
             IOptions<SePayOptions> options)
         {

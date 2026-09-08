@@ -15,7 +15,7 @@ namespace FixHub.Application.Features.Orders.Commands.DeleteOrder
         public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
             var order = await _unitOfWork.OrderRepository.FindById(request.Id);
-            if (order == null) throw new Exception("Order not found");
+            if (order == null) throw new FixHub.Application.Common.Exceptions.NotFoundException(nameof(FixHub.Domain.Entities.Order), request.Id);
 
             await _unitOfWork.OrderRepository.DeleteAsync(order.Id);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

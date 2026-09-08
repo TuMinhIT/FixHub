@@ -18,7 +18,7 @@ namespace FixHub.Application.Features.Categories.Commands.UpdateCategory
         public async Task<bool> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = await _unitOfWork.CategoryRepository.FindById(request.Id);
-            if (category == null) throw new Exception("Category not found");
+            if (category == null) throw new FixHub.Application.Common.Exceptions.NotFoundException(nameof(FixHub.Domain.Entities.Category), request.Id);
             
             _mapper.Map(request, category);
             await _unitOfWork.CategoryRepository.UpdateAsync(category);

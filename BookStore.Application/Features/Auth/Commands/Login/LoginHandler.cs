@@ -25,16 +25,16 @@ namespace FixHub.Application.Features.Auth.Commands.Login
         }
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            User user = await _unitOfWork.UserRepository.GetByEmailAsync(request.Email);
+            var user = await _unitOfWork.UserRepository.GetByEmailAsync(request.Email);
                      
             if (user == null || !_passwordHasher.Verify(request.Password, user.Password))
             {
-                throw new Exception("Invalid email or password");
+                throw new UnauthorizedAccessException("Invalid email or password");
             }
 
             if (!user.IsActive)
             {
-                throw new Exception("User is not active");
+                throw new UnauthorizedAccessException("User is not active");
             }
        
             //generate access token and refresh token

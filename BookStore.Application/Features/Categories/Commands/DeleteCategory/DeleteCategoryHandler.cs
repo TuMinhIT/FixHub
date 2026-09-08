@@ -15,7 +15,7 @@ namespace FixHub.Application.Features.Categories.Commands.DeleteCategory
         public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = await _unitOfWork.CategoryRepository.FindById(request.Id);
-            if (category == null) throw new Exception("Category not found");
+            if (category == null) throw new FixHub.Application.Common.Exceptions.NotFoundException(nameof(FixHub.Domain.Entities.Category), request.Id);
 
             await _unitOfWork.CategoryRepository.DeleteAsync(category.Id);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

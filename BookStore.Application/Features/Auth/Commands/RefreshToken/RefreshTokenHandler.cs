@@ -24,7 +24,7 @@ namespace FixHub.Application.Features.Auth.Commands.RefreshToken
         public async Task<RefreshTokenResponse> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
             var refreshToken = await _unitOfWork.RefreshTokenRepository.GetByTokenAsync(request.RefreshToken);
-            if (refreshToken == null || refreshToken.IsRevoked )
+            if (refreshToken == null || refreshToken.IsRevoked || refreshToken.ExpiresAt <= DateTime.UtcNow)
             {
                 throw new UnauthorizedAccessException("Invalid refresh token.");
             }
@@ -36,7 +36,7 @@ namespace FixHub.Application.Features.Auth.Commands.RefreshToken
             }
 
             //revoke the old refresh token
-            refreshToken.ExpiresAt = DateTime.UtcNow;
+            refreshToken.RevokedAt = DateTime.UtcNow;
 
             // Generate new access token and refresh token
             var newAccessToken = _jwtService.GenerateAccessToken(user);

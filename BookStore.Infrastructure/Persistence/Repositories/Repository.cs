@@ -1,8 +1,6 @@
 ﻿using FixHub.Domain.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixHub.Infrastructure.Persistence.Repositories
 {
@@ -22,25 +20,21 @@ namespace FixHub.Infrastructure.Persistence.Repositories
             return _dbSet.AsNoTracking();
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
         {
-            return await _dbSet.FindAsync(id);
-        }
-
-
-        public async Task<IQueryable<T>> Find(Func<T, bool> predicate)
-        {
-            return _dbSet.Where(predicate).AsQueryable();
-        }
-
-        public Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
-        {
-            throw new NotImplementedException();
+            var items = entities.ToList();
+            await _dbSet.AddRangeAsync(items);
+            return items;
         }
 
         public async Task<T> UpdateAsync(T entity)
         {
-            var existingEntity = await _dbSet.FindAsync(entity);
+            var key = _context.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties.SingleOrDefault();
+            if (key == null)
+                throw new InvalidOperationException($"Entity {typeof(T).Name} has no single primary key.");
+
+            var keyValue = key.PropertyInfo?.GetValue(entity);
+            var existingEntity = await _dbSet.FindAsync(new[] { keyValue });
             if (existingEntity != null)
             {
                 _context.Entry(existingEntity).CurrentValues.SetValues(entity);
@@ -76,7 +70,7 @@ namespace FixHub.Infrastructure.Persistence.Repositories
             
         }
 
-        public async Task<T> FindById(Guid id)
+        public async Task<T?> FindById(Guid id)
         {
             var result = await _dbSet.FindAsync(id);
             return result;

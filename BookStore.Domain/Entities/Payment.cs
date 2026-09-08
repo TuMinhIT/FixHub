@@ -79,6 +79,27 @@ namespace FixHub.Domain.Entities
             PaidAt = DateTime.UtcNow;
         }
 
+        public void MarkAsFailed()
+        {
+            if (Status == PaymentStatus.Success)
+                return;
+
+            Status = PaymentStatus.Failed;
+        }
+
+        public void MarkAsCancelled()
+        {
+            if (Status == PaymentStatus.Success)
+                return;
+
+            Status = PaymentStatus.Cancelled;
+        }
+
+        public void MarkAsRefunded()
+        {
+            Status = PaymentStatus.Refunded;
+        }
+
         public void SetCheckoutData(string checkoutUrl, IReadOnlyDictionary<string, string> fields)
         {
             CheckoutUrl = checkoutUrl;

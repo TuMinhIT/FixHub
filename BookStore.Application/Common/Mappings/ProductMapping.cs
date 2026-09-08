@@ -10,7 +10,11 @@ namespace FixHub.Application.Common.Mappings
     {
         public ProductMapping()
         {
-            CreateMap<Product, ProductResponse>();
+            CreateMap<Product, ProductResponse>()
+                .ForMember(d => d.ImageUrl, o => o.MapFrom(s =>
+                    s.Images.OrderByDescending(x => x.IsPrimary).Select(x => x.ImageUrl).FirstOrDefault()));
+            CreateMap<Category, CategorySummary>();
+            CreateMap<ProductImage, ProductImageResponse>();
             CreateMap<CreateProductCommand, Product>();
             CreateMap<UpdateProductCommand, Product>();
         }

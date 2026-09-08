@@ -19,7 +19,11 @@ namespace FixHub.Application.Features.Orders.Queries.GetAllOrders
 
         public async Task<List<OrderResponse>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _unitOfWork.OrderRepository.GetAll().ToListAsync(cancellationToken);
+            var orders = await _unitOfWork.OrderRepository.GetAll()
+                .Include(x => x.OrderDetails)
+                .Include(x => x.Payment)
+                .OrderByDescending(x => x.OrderDate)
+                .ToListAsync(cancellationToken);
             return _mapper.Map<List<OrderResponse>>(orders);
         }
     }

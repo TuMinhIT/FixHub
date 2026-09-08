@@ -6,11 +6,8 @@ namespace FixHub.Infrastructure.Persistence.Repositories
 {
     public class AddressRepository : Repository<Address>, IAddressRepository
     {
-        private readonly AppDbContext _context;
-
         public AddressRepository(AppDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<List<Address>> GetByUserIdAsync(Guid userId)

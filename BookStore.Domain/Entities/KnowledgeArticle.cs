@@ -7,11 +7,12 @@ namespace FixHub.Domain.Entities
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public string? Tags { get; set; }
+        public string Status { get; set; } = KnowledgeArticleStatuses.Published;
+        public string? Source { get; set; }
+        public int Version { get; set; } = 1;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
 
-        /// <summary>
-        /// The vector embedding used for semantic search (RAG)
-        /// </summary>
-        //public Vector? Embedding { get; set; }
+        public ICollection<KnowledgeChunk> Chunks { get; set; } = new List<KnowledgeChunk>();
     }
 }

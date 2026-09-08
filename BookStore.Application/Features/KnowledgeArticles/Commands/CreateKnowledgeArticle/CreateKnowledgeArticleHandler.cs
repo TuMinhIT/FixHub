@@ -9,11 +9,13 @@ namespace FixHub.Application.Features.KnowledgeArticles.Commands.CreateKnowledge
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IRagIndexQueue _ragIndexQueue;
 
-        public CreateKnowledgeArticleHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateKnowledgeArticleHandler(IUnitOfWork unitOfWork, IMapper mapper, IRagIndexQueue ragIndexQueue)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _ragIndexQueue = ragIndexQueue;
         }
 
         public async Task<Guid> Handle(CreateKnowledgeArticleCommand request, CancellationToken cancellationToken)
@@ -22,6 +24,7 @@ namespace FixHub.Application.Features.KnowledgeArticles.Commands.CreateKnowledge
             
             await _unitOfWork.KnowledgeArticleRepository.AddAsync(article);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _ragIndexQueue.EnqueueAsync(article.Id, cancellationToken);
             return article.Id;
         }
     }

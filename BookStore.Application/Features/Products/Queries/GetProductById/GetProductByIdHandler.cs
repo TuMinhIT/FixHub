@@ -2,6 +2,9 @@ using AutoMapper;
 using FixHub.Application.Common.Interfaces;
 using FixHub.Application.Features.Products.DTOs;
 using MediatR;
+using FixHub.Application.Common.Exceptions;
+using FixHub.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace FixHub.Application.Features.Products.Queries.GetProductById
 {
@@ -18,8 +21,11 @@ namespace FixHub.Application.Features.Products.Queries.GetProductById
 
         public async Task<ProductResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await _unitOfWork.ProductRepository.FindById(request.Id);
-            if (product == null) throw new Exception("Product not found");
+            var product = await _unitOfWork.ProductRepository.GetAll()
+                .Include(x => x.Category)
+                .Include(x => x.Images)
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
+            if (product == null) throw new NotFoundException(nameof(Product), request.Id);
             return _mapper.Map<ProductResponse>(product);
         }
     }

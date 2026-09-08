@@ -15,7 +15,7 @@ namespace FixHub.Application.Features.RepairServices.Commands.DeleteRepairServic
         public async Task<bool> Handle(DeleteRepairServiceCommand request, CancellationToken cancellationToken)
         {
             var service = await _unitOfWork.ServiceRepository.FindById(request.Id);
-            if (service == null) throw new Exception("Service not found");
+            if (service == null) throw new FixHub.Application.Common.Exceptions.NotFoundException(nameof(FixHub.Domain.Entities.RepairService), request.Id);
 
             await _unitOfWork.ServiceRepository.DeleteAsync(service.Id);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

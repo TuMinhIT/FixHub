@@ -1,7 +1,9 @@
 using AutoMapper;
 using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Exceptions;
 using FixHub.Application.Features.KnowledgeArticles.DTOs;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace FixHub.Application.Features.KnowledgeArticles.Queries.GetKnowledgeArticleById
 {
@@ -18,8 +20,9 @@ namespace FixHub.Application.Features.KnowledgeArticles.Queries.GetKnowledgeArti
 
         public async Task<KnowledgeArticleResponse> Handle(GetKnowledgeArticleByIdQuery request, CancellationToken cancellationToken)
         {
-            var article = await _unitOfWork.KnowledgeArticleRepository.FindById(request.Id);
-            if (article == null) throw new Exception("Article not found");
+            var article = await _unitOfWork.KnowledgeArticleRepository.GetAll()
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.Status == Domain.Entities.KnowledgeArticleStatuses.Published, cancellationToken);
+            if (article == null) throw new NotFoundException(nameof(Domain.Entities.KnowledgeArticle), request.Id);
             return _mapper.Map<KnowledgeArticleResponse>(article);
         }
     }

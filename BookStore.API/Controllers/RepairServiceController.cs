@@ -13,6 +13,7 @@ namespace FixHub.API.Controllers
 {
     [ApiController]
     [Route("api/repairservice")]
+    [Route("api/v1/repair-services")]
     public class RepairServiceController : ControllerBase
     {
         private readonly IMediator _mediator;

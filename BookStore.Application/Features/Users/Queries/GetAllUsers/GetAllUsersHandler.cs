@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FixHub.Application.Common.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace FixHub.Application.Features.Users.Queries.GetAllUsers
 {
@@ -22,8 +23,9 @@ namespace FixHub.Application.Features.Users.Queries.GetAllUsers
             GetAllUserQuery request,
             CancellationToken cancellationToken)
         {
-            var users = _unitOfWork.UserRepository
-                .GetAll();
+            var users = await _unitOfWork.UserRepository
+                .GetAll()
+                .ToListAsync(cancellationToken);
             return _mapper.Map<List<UserResponse>>(users);
         }
     }

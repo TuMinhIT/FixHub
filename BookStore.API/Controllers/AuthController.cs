@@ -11,6 +11,7 @@ namespace FixHub.API.Controllers
     [ApiController]
 
     [Route("api/auth")]
+    [Route("api/v1/auth")]
     public class AuthController(IMediator _mediator) : ControllerBase
     {
         [HttpPost("register")]
@@ -56,8 +57,18 @@ namespace FixHub.API.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
 
+            if (string.IsNullOrWhiteSpace(refreshToken))
+            {
+                return Unauthorized(new ApiResponse<string>
+                {
+                    Success = false,
+                    Message = "Refresh token not found.",
+                    Data = null
+                });
+            }
+
             var response = await _mediator.Send(
-             new RefreshTokenCommand(refreshToken));
+                new RefreshTokenCommand(refreshToken));
 
             Response.Cookies.Append(
                 "refreshToken",

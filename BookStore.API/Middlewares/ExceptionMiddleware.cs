@@ -45,6 +45,10 @@ namespace FixHub.API.Middlewares
                     ValidateAndFormatErrors(validationEx, out message, out errors),
                 BadRequestException => (int)HttpStatusCode.BadRequest,
                 UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
+                ForbiddenException or ForbiddenAccessException => (int)HttpStatusCode.Forbidden,
+                NotFoundException => (int)HttpStatusCode.NotFound,
+                ConflictException => (int)HttpStatusCode.Conflict,
+                ServiceUnavailableException => (int)HttpStatusCode.ServiceUnavailable,
                 KeyNotFoundException => (int)HttpStatusCode.NotFound,
                 _ => (int)HttpStatusCode.InternalServerError
             };

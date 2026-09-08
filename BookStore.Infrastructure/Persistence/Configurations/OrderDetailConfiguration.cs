@@ -10,6 +10,10 @@ namespace FixHub.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(od => od.Id);
             builder.Property(od => od.UnitPrice).HasColumnType("decimal(18,2)");
+            builder.Property(od => od.Subtotal).HasColumnType("decimal(18,2)");
+            builder.Property(od => od.ProductNameSnapshot).HasMaxLength(255);
+            builder.Property(od => od.SkuSnapshot).HasMaxLength(100);
+            builder.Property(od => od.ServiceNameSnapshot).HasMaxLength(255);
             
             builder.HasOne(od => od.Order)
                    .WithMany(o => o.OrderDetails)

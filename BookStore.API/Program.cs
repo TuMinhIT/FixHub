@@ -4,19 +4,28 @@ using FixHub.Application.Common.Models;
 using FixHub.Infrastructure;
 using FixHub.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.DataProtection;
+using System.Threading.RateLimiting;
 
 namespace FixHub.API
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+            var dataProtectionPath = builder.Configuration["DataProtection:KeysPath"]
+                ?? Path.Combine(AppContext.BaseDirectory, "data-protection-keys");
+            builder.Services.AddDataProtection()
+                .SetApplicationName("FixHub")
+                .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionPath));
 
             // Add application services
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructure(builder.Configuration);
-
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddJwtAuthentication(builder.Configuration);
             builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -45,6 +54,18 @@ namespace FixHub.API
             });
             builder.Services.AddControllers();
             builder.Services.AddAuthorization();
+            builder.Services.AddRateLimiter(options =>
+            {
+                options.AddPolicy("rag", context => RateLimitPartition.GetFixedWindowLimiter(
+                    context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                    _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 20,
+                        Window = TimeSpan.FromMinutes(1),
+                        QueueLimit = 0
+                    }));
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            });
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -71,12 +92,15 @@ namespace FixHub.API
 
             app.UseCors("AllowFrontend");
             app.UseMiddleware<ExceptionMiddleware>();
-            app.UseHttpsRedirection();
+            if (!app.Environment.IsDevelopment() || app.Urls.Any(x => x.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
+                app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseRateLimiter();
 
             app.MapControllers();
             app.MapGet("/", () => "Hello World!");
+            app.MapGet("/health/live", () => Results.Ok(new { status = "ok" }));
 
             app.Run();
         }

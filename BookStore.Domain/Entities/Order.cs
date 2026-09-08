@@ -9,14 +9,17 @@ namespace FixHub.Domain.Entities
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public decimal TotalAmount { get; set; }
         
-        // e.g., Pending, Confirmed, InProgress, Completed, Cancelled
-        public string Status { get; set; } = "Pending"; 
+        public string Status { get; set; } = OrderStatuses.PendingPayment;
         
         // Contact info
         public string? Note { get; set; }
         public Guid? AddressId { get; set; }
         public Address? Address { get; set; }
         public string? IdempotencyKey { get; set; }
+
+        public decimal ShippingFee { get; set; }
+
+        public decimal DiscountAmount { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

@@ -19,6 +19,10 @@ namespace FixHub.Infrastructure.Persistence.Configurations
             .HasFilter("\"IdempotencyKey\" IS NOT NULL");
 
             builder.Property(x => x.IdempotencyKey).HasMaxLength(255);
+            builder.Property(x => x.TotalAmount).HasColumnType("numeric(18,2)");
+            builder.Property(x => x.ShippingFee).HasColumnType("numeric(18,2)");
+            builder.Property(x => x.DiscountAmount).HasColumnType("numeric(18,2)");
+            builder.Property(x => x.Status).HasMaxLength(50).IsRequired();
         }
     }
 }

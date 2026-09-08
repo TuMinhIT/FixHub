@@ -15,5 +15,13 @@ namespace FixHub.Domain.Entities
 
         public int Quantity { get; set; } = 1;
         public decimal UnitPrice { get; set; }
+
+        public decimal Subtotal { get; set; }
+
+        public string? ProductNameSnapshot { get; set; }
+
+        public string? SkuSnapshot { get; set; }
+
+        public string? ServiceNameSnapshot { get; set; }
     }
 }

@@ -3,6 +3,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Features.Rag.Services;
+using FixHub.Application.Features.Orders.Services;
 
 namespace FixHub.Application
 {
@@ -24,6 +27,10 @@ namespace FixHub.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
+
+            services.AddScoped<IRagIndexingService, RagIndexingService>();
+            services.AddScoped<IRagSearchService, RagSearchService>();
+            services.AddScoped<IOrderInventoryService, OrderInventoryService>();
 
             return services;
         }

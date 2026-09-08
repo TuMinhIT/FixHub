@@ -15,7 +15,7 @@ namespace FixHub.Application.Features.Products.Commands.DeleteProduct
         public async Task<bool> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
             var product = await _unitOfWork.ProductRepository.FindById(request.Id);
-            if (product == null) throw new Exception("Product not found");
+            if (product == null) throw new FixHub.Application.Common.Exceptions.NotFoundException(nameof(FixHub.Domain.Entities.Product), request.Id);
 
             await _unitOfWork.ProductRepository.DeleteAsync(product.Id);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-
-    [Route("api/auth")]
     [Route("api/v1/auth")]
     public class AuthController(IMediator _mediator) : ControllerBase
     {

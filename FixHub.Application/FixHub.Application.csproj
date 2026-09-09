@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookStore.Domain\FixHub.Domain.csproj" />
+    <ProjectReference Include="..\FixHub.Domain\FixHub.Domain.csproj" />
   </ItemGroup>
 
 </Project>

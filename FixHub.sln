@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37111.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.API", "BookStore.API\FixHub.API.csproj", "{4F282329-AD00-414A-BE36-D1DA4D00B2A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.API", "FixHub.API\FixHub.API.csproj", "{4F282329-AD00-414A-BE36-D1DA4D00B2A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Domain", "BookStore.Domain\FixHub.Domain.csproj", "{B06A8DD2-7348-40F5-81E3-902CD7216FC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Domain", "FixHub.Domain\FixHub.Domain.csproj", "{B06A8DD2-7348-40F5-81E3-902CD7216FC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Application", "BookStore.Application\FixHub.Application.csproj", "{0E6C8006-84D1-4BC5-9988-9FFFD4104F66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Application", "FixHub.Application\FixHub.Application.csproj", "{0E6C8006-84D1-4BC5-9988-9FFFD4104F66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Infrastructure", "BookStore.Infrastructure\FixHub.Infrastructure.csproj", "{13AA957E-58D7-43FE-9425-5F6BEADDEEF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Infrastructure", "FixHub.Infrastructure\FixHub.Infrastructure.csproj", "{13AA957E-58D7-43FE-9425-5F6BEADDEEF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Tests", "BookStore.Tests\FixHub.Tests.csproj", "{7CDEB0F0-5E8C-4C7C-B2CE-823D739F8A76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixHub.Tests", "FixHub.Tests\FixHub.Tests.csproj", "{7CDEB0F0-5E8C-4C7C-B2CE-823D739F8A76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

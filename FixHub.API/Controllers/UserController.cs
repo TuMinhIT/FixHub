@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/v1/user")]
     public class UserController(IMediator _mediator) : ControllerBase
     {
         [HttpGet("all")]
@@ -20,8 +20,7 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<List<UserResponse>>(response));
         }
 
-        [HttpPut("profile")]
-        [HttpPut("/api/v1/me")]
+        [HttpPut("me")]
         [Authorize]
         public async Task<IActionResult> updateUserProfile([FromBody] UpdateProfileCommand command, CancellationToken cancellationToken)
         {
@@ -29,8 +28,7 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<UpdateProfileResponse>(response, "Profile updated successfully"));
         }
 
-        [HttpGet("profile")]
-        [HttpGet("/api/v1/me")]
+        [HttpGet("me")]
         [Authorize]
         public async Task<IActionResult> getUserProfile(CancellationToken cancellationToken)
         {

@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookStore.Application\FixHub.Application.csproj" />
-    <ProjectReference Include="..\BookStore.Infrastructure\FixHub.Infrastructure.csproj" />
+    <ProjectReference Include="..\FixHub.Application\FixHub.Application.csproj" />
+    <ProjectReference Include="..\FixHub.Infrastructure\FixHub.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

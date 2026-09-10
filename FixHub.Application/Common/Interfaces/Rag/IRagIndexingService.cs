@@ -1,4 +1,4 @@
-namespace FixHub.Application.Common.Interfaces;
+namespace FixHub.Application.Common.Interfaces.Rag;
 
 public interface IRagIndexingService
 {

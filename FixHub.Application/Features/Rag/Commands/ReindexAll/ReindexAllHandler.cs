@@ -1,4 +1,4 @@
-using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Interfaces.Rag;
 using MediatR;
 
 namespace FixHub.Application.Features.Rag.Commands.ReindexAll;

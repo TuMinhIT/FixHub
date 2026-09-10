@@ -11,7 +11,8 @@ using FixHub.Infrastructure.BackgroundJobs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using FixHub.Application.Common.Interfaces.Rag;
+using FixHub.Infrastructure.RAG;
 namespace FixHub.Infrastructure
 {
     public static class DependencyInjection
@@ -48,9 +49,9 @@ namespace FixHub.Infrastructure
             services.AddScoped<IPaymentGateway, SePayGateway>();
             services.AddScoped<IImageStorageService, CloudinaryService>();
 
-            services.AddHttpClient<IRagEmbeddingService, FixHub.Infrastructure.RAG.GeminiEmbeddingService>();
-            services.AddHttpClient<IRagAnswerService, FixHub.Infrastructure.RAG.GeminiAnswerService>();
-            services.AddSingleton<IRagIndexQueue, FixHub.Infrastructure.RAG.RagIndexQueue>();
+            services.AddHttpClient<IRagEmbeddingService,GeminiEmbeddingService  >();
+            services.AddHttpClient<IRagAnswerService, GeminiAnswerService>();
+            services.AddSingleton<IRagIndexQueue, RagIndexQueue>();
             services.AddHostedService<RagIndexWorker>();
             services.AddHostedService<StockReservationCleanupService>();
 

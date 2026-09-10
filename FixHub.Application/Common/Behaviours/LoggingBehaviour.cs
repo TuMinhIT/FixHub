@@ -21,7 +21,6 @@ namespace FixHub.Application.Common.Behaviours
         {
             _logger.LogInformation("Handling {RequestName}", typeof(TRequest).Name);
             var response = await next();
-            //_logger.LogInformation("Handled {RequestName}", typeof(TRequest).Name);
             return response;
         }
     }

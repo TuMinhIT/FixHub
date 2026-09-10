@@ -1,5 +1,5 @@
 using System.Threading.Channels;
-using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Interfaces.Rag;
 
 namespace FixHub.Infrastructure.RAG;
 

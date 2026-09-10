@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using FixHub.Application.Common.Exceptions;
 using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Interfaces.Rag;
 using FixHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

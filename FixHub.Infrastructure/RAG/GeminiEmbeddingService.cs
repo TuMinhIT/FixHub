@@ -1,4 +1,3 @@
-using FixHub.Application.Common.Interfaces;
 using FixHub.Application.Common.Exceptions;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
@@ -6,6 +5,7 @@ using System.Text.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using FixHub.Application.Common.Interfaces.Rag;
 
 namespace FixHub.Infrastructure.RAG
 {

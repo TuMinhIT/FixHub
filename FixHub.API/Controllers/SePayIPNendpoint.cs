@@ -13,7 +13,7 @@ using System.Text.Json;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/sepay")]
+
     [Route("api/v1/payments/sepay")]
     public class SePayIPNendpoint : ControllerBase
     {

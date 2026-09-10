@@ -1,9 +1,9 @@
-using FixHub.Application.Common.Interfaces;
 using FixHub.Application.Common.Exceptions;
 using FixHub.Application.Features.Rag.DTOs;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using FixHub.Application.Common.Interfaces.Rag;
 
 namespace FixHub.Infrastructure.RAG;
 

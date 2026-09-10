@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/knowledgearticle")]
     [Route("api/v1/knowledge-articles")]
     public class KnowledgeArticleController : ControllerBase
     {

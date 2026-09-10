@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/payments")]
     [Route("api/v1/payments")]
     public class PaymentController(IMediator _mediator) : ControllerBase
     {

@@ -6,6 +6,7 @@ using System.Reflection;
 using FixHub.Application.Common.Interfaces;
 using FixHub.Application.Features.Rag.Services;
 using FixHub.Application.Features.Orders.Services;
+using FixHub.Application.Common.Interfaces.Rag;
 
 namespace FixHub.Application
 {

@@ -1,12 +1,10 @@
 ﻿using FixHub.Application.Common.Interfaces;
 using FixHub.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FixHub.API.Controllers
 {
-    [Route("api/[controller]")]
     [Route("api/v1/uploads")]
     [ApiController]
     public class UploadController : ControllerBase

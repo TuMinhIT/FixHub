@@ -12,9 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers;
 
 [ApiController]
-[Route("api/cart")]
 [Route("api/v1/cart")]
-[Route("api/v1/me/cart")]
 [Authorize]
 public sealed class CartController : ControllerBase
 {

@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/product")]
     [Route("api/v1/products")]
     public class ProductController : ControllerBase
     {

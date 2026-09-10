@@ -1,5 +1,6 @@
 using AutoMapper;
 using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Interfaces.Rag;
 using FixHub.Domain.Entities;
 using MediatR;
 

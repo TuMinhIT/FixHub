@@ -37,10 +37,12 @@ namespace FixHub.API.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
+                Path = "/",
                 Expires = DateTimeOffset.UtcNow.AddDays(7)
             });
 
+ 
             response.RefeshToken = string.Empty;
             return Ok(new ApiResponse<LoginResponse>
             {
@@ -78,6 +80,8 @@ namespace FixHub.API.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTimeOffset.UtcNow.AddDays(7)
                 });
+
+
             response.RefreshToken = "";
 
             return Ok(new ApiResponse<RefreshTokenResponse>
@@ -117,7 +121,15 @@ namespace FixHub.API.Controllers
                 });
             }
 
-            Response.Cookies.Delete("refreshToken");
+            //Response.Cookies.Delete("refreshToken");
+
+            Response.Cookies.Delete("refreshToken", new CookieOptions
+            {
+                Path = "/",
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+
 
             return Ok(new ApiResponse<string>
             {

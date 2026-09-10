@@ -4,6 +4,7 @@ using FixHub.Application.Features.Rag.DTOs;
 using FixHub.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FixHub.Application.Common.Interfaces.Rag;
 
 namespace FixHub.Application.Features.Rag.Commands.AskRag;
 

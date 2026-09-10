@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/v1/user")]
+    [Route("api/v1/users")]
     public class UserController(IMediator _mediator) : ControllerBase
     {
         [HttpGet("all")]

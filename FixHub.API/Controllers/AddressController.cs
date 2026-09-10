@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/address")]
+    [Route("api/v1/address")]
     public class AddressController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,8 +22,7 @@ namespace FixHub.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("my")]
-        [HttpGet("/api/v1/me/addresses")]
+        [HttpGet("me")]
         [Authorize]
         public async Task<IActionResult> GetMyAddresses(CancellationToken cancellationToken)
         {
@@ -31,8 +30,7 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<List<AddressResponse>>(response));
         }
 
-        [HttpGet("{id:guid}")]
-        [HttpGet("/api/v1/me/addresses/{id:guid}")]
+        [HttpGet("me/{id:guid}")]
         [Authorize]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -40,8 +38,8 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<AddressResponse>(response));
         }
 
-        [HttpPost]
-        [HttpPost("/api/v1/me/addresses")]
+      
+        [HttpPost("me")]
         [Authorize]
         public async Task<IActionResult> CreateAddress([FromBody] CreateAddressCommand command, CancellationToken cancellationToken)
         {
@@ -49,8 +47,8 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<Guid>(response, "Address created successfully"));
         }
 
-        [HttpPut("{id:guid}")]
-        [HttpPut("/api/v1/me/addresses/{id:guid}")]
+       
+        [HttpPut("me/{id:guid}")]
         [Authorize]
         public async Task<IActionResult> UpdateAddress(Guid id, [FromBody] UpdateAddressCommand command, CancellationToken cancellationToken)
         {
@@ -63,8 +61,8 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<bool>(response, "Address updated successfully"));
         }
 
-        [HttpDelete("{id:guid}")]
-        [HttpDelete("/api/v1/me/addresses/{id:guid}")]
+        
+        [HttpDelete("me/{id:guid}")]
         [Authorize]
         public async Task<IActionResult> DeleteAddress(Guid id, CancellationToken cancellationToken)
         {

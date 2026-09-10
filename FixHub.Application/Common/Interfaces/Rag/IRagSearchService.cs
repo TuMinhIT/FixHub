@@ -1,6 +1,6 @@
 using FixHub.Application.Features.Rag.DTOs;
 
-namespace FixHub.Application.Common.Interfaces;
+namespace FixHub.Application.Common.Interfaces.Rag;
 
 public interface IRagSearchService
 {

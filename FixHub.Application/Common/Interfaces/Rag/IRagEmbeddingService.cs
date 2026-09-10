@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace FixHub.Application.Common.Interfaces
+namespace FixHub.Application.Common.Interfaces.Rag
 {
     public interface IRagEmbeddingService
     {

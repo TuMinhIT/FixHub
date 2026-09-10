@@ -1,5 +1,6 @@
 using FixHub.Application.Common.Exceptions;
 using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Interfaces.Rag;
 using FixHub.Application.Features.Rag.DTOs;
 using FixHub.Domain.Entities;
 

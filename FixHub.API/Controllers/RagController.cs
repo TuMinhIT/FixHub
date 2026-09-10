@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace FixHub.API.Controllers;
 
 [ApiController]
-[Route("api/rag")]
 [Route("api/v1/rag")]
 [EnableRateLimiting("rag")]
 public sealed class RagController : ControllerBase
@@ -53,7 +52,6 @@ public sealed class RagController : ControllerBase
     }
 
     [HttpPost("reindex")]
-    [HttpPost("/api/v1/admin/rag/reindex")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Reindex(CancellationToken cancellationToken)
     {

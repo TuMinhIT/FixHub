@@ -1,4 +1,4 @@
-using FixHub.Application.Common.Interfaces;
+using FixHub.Application.Common.Interfaces.Rag;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

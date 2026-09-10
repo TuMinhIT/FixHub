@@ -2,6 +2,7 @@ using AutoMapper;
 using FixHub.Application.Common.Interfaces;
 using FixHub.Application.Common.Exceptions;
 using MediatR;
+using FixHub.Application.Common.Interfaces.Rag;
 
 namespace FixHub.Application.Features.KnowledgeArticles.Commands.UpdateKnowledgeArticle
 {

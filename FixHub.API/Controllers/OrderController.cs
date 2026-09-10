@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/order")]
     [Route("api/v1/orders")]
     public class OrderController : ControllerBase
     {
@@ -49,7 +48,7 @@ namespace FixHub.API.Controllers
             return Ok(new ApiResponse<List<OrderResponse>>(response));
         }
 
-        [HttpGet("my")]
+        [HttpGet("me")]
         [Authorize]
         public async Task<IActionResult> GetMyOrders(CancellationToken cancellationToken)
         {

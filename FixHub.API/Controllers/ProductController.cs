@@ -27,6 +27,7 @@ namespace FixHub.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsQuery query, CancellationToken cancellationToken)
         {
+            query.IncludeInactive = query.IncludeInactive && User.IsInRole("Admin");
             var response = await _mediator.Send(query, cancellationToken);
             return Ok(new ApiResponse<Pagination<ProductResponse>>(response));
         }
@@ -34,7 +35,8 @@ namespace FixHub.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(Guid id, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
+            var query = new GetProductByIdQuery(id) { IncludeInactive = User.IsInRole("Admin") };
+            var response = await _mediator.Send(query, cancellationToken);
             return Ok(new ApiResponse<ProductResponse>(response));
         }
 

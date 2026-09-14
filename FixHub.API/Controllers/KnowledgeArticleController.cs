@@ -1,5 +1,6 @@
 using FixHub.Application.Common.Models;
 using FixHub.Application.Features.KnowledgeArticles.Commands.CreateKnowledgeArticle;
+using FixHub.Application.Features.KnowledgeArticles.Commands.BulkCreateKnowledgeArticles;
 using FixHub.Application.Features.KnowledgeArticles.Commands.DeleteKnowledgeArticle;
 using FixHub.Application.Features.KnowledgeArticles.Commands.UpdateKnowledgeArticle;
 using FixHub.Application.Features.KnowledgeArticles.DTOs;
@@ -26,14 +27,18 @@ namespace FixHub.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllKnowledgeArticles(CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetAllKnowledgeArticlesQuery(), cancellationToken);
+            var response = await _mediator.Send(
+                new GetAllKnowledgeArticlesQuery { IncludeAllStatuses = User.IsInRole("Admin") },
+                cancellationToken);
             return Ok(new ApiResponse<List<KnowledgeArticleResponse>>(response));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetKnowledgeArticleById(Guid id, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetKnowledgeArticleByIdQuery(id), cancellationToken);
+            var response = await _mediator.Send(
+                new GetKnowledgeArticleByIdQuery(id) { IncludeAllStatuses = User.IsInRole("Admin") },
+                cancellationToken);
             return Ok(new ApiResponse<KnowledgeArticleResponse>(response));
         }
 
@@ -43,6 +48,17 @@ namespace FixHub.API.Controllers
         {
             var response = await _mediator.Send(command, cancellationToken);
             return Ok(new ApiResponse<Guid>(response, "Article created successfully"));
+        }
+
+        [HttpPost("bulk")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateKnowledgeArticles(
+            [FromBody] List<CreateKnowledgeArticleCommand> articles,
+            CancellationToken cancellationToken)
+        {
+            var command = new BulkCreateKnowledgeArticlesCommand { Articles = articles };
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(new ApiResponse<List<Guid>>(response, "Articles created successfully"));
         }
 
         [HttpPut("{id}")]

@@ -1,7 +1,7 @@
 using FixHub.Application.Common.Exceptions;
 using FixHub.Application.Features.Rag.DTOs;
-using System.Net.Http.Json;
-using System.Text.Json;
+using Google.GenAI;
+using Google.GenAI.Types;
 using Microsoft.Extensions.Configuration;
 using FixHub.Application.Common.Interfaces.Rag;
 
@@ -9,14 +9,14 @@ namespace FixHub.Infrastructure.RAG;
 
 public sealed class GeminiAnswerService : IRagAnswerService
 {
-    private readonly HttpClient _httpClient;
+    private readonly Client _client;
     private readonly string _apiKey;
     private readonly string _model;
 
-    public GeminiAnswerService(HttpClient httpClient, IConfiguration configuration)
+    public GeminiAnswerService(Client client, IConfiguration configuration)
     {
-        _httpClient = httpClient;
-        _apiKey = configuration["Gemini:ApiKey"] ?? string.Empty;
+        _client = client;
+        _apiKey = configuration["Gemini:ApiKey"]?.Trim() ?? string.Empty;
         _model = configuration["Gemini:AnswerModel"] ?? "gemini-2.0-flash";
     }
 
@@ -47,48 +47,42 @@ public sealed class GeminiAnswerService : IRagAnswerService
             {context}
             """;
 
-        var request = new
-        {
-            contents = new[]
-            {
-                new
-                {
-                    role = "user",
-                    parts = new[] { new { text = prompt } }
-                }
-            },
-            generationConfig = new
-            {
-                temperature = 0.2,
-                maxOutputTokens = 800
-            }
-        };
-
-        var url = $"https://generativelanguage.googleapis.com/v1beta/models/{_model}:generateContent?key={_apiKey}";
-        HttpResponseMessage response;
         try
         {
-            response = await _httpClient.PostAsJsonAsync(url, request, cancellationToken);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.Models.GenerateContentAsync(
+                model: _model,
+                contents: prompt,
+                config: new GenerateContentConfig
+                {
+                    Temperature = 0.2,
+                    MaxOutputTokens = 800
+                },
+                cancellationToken: cancellationToken);
+
+            var text = response.Text;
+            return string.IsNullOrWhiteSpace(text)
+                ? "Chưa tạo được câu trả lời. Vui lòng thử lại sau."
+                : text.Trim();
+        }
+        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+        {
+            throw new ServiceUnavailableException("Gemini answer provider timed out.");
+        }
+        catch (ClientError exception)
+        {
+            throw new ServiceUnavailableException(
+                $"Gemini answer request failed for model '{_model}'. {exception.Message}",
+                exception);
+        }
+        catch (ServerError exception)
+        {
+            throw new ServiceUnavailableException(
+                $"Gemini answer provider returned a server error for model '{_model}'.",
+                exception);
         }
         catch (HttpRequestException exception)
         {
             throw new ServiceUnavailableException("Gemini answer provider is unavailable.", exception);
         }
-
-        using var document = JsonDocument.Parse(await response.Content.ReadAsStreamAsync(cancellationToken));
-        var root = document.RootElement;
-        var text = root.TryGetProperty("candidates", out var candidates)
-            && candidates.GetArrayLength() > 0
-            && candidates[0].TryGetProperty("content", out var content)
-            && content.TryGetProperty("parts", out var parts)
-            && parts.GetArrayLength() > 0
-            && parts[0].TryGetProperty("text", out var textElement)
-                ? textElement.GetString()
-                : null;
-
-        return string.IsNullOrWhiteSpace(text)
-            ? "Chưa tạo được câu trả lời. Vui lòng thử lại sau."
-            : text.Trim();
     }
 }

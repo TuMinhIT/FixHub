@@ -11,9 +11,8 @@
         public string Role { get; set; } = "User";
         public bool IsActive { get; set; } = true;
         public string Gender { get; set; } = string.Empty;
-        public DateTime Dob { get; set; } = DateTime.Now;
-        public DateTime CreateAt { get; set; }
-        = DateTime.UtcNow;
+        public DateTime? Dob { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdateAt { get; set; }
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
         

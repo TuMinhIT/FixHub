@@ -22,6 +22,7 @@ namespace FixHub.Infrastructure.Persistence
             IPaymentRepository paymentRepository,
             IKnowledgeArticleRepository knowledgeArticleRepository,
             IKnowledgeChunkRepository knowledgeChunkRepository,
+            IRepository<UploadedImage> uploadedImageRepository,
             ICartRepository cartRepository,
             IRepository<InventoryTransaction> inventoryTransactionRepository,
             IRepository<StockReservation> stockReservationRepository,
@@ -40,6 +41,7 @@ namespace FixHub.Infrastructure.Persistence
             AddressRepository = addressRepository;
             KnowledgeArticleRepository = knowledgeArticleRepository;
             KnowledgeChunkRepository = knowledgeChunkRepository;
+            UploadedImageRepository = uploadedImageRepository;
             CartRepository = cartRepository;
             InventoryTransactionRepository = inventoryTransactionRepository;
             StockReservationRepository = stockReservationRepository;
@@ -57,6 +59,7 @@ namespace FixHub.Infrastructure.Persistence
         public IAddressRepository AddressRepository { get; }
         public IKnowledgeArticleRepository KnowledgeArticleRepository { get; }
         public IKnowledgeChunkRepository KnowledgeChunkRepository { get; }
+        public IRepository<UploadedImage> UploadedImageRepository { get; }
         public ICartRepository CartRepository { get; }
         public IRepository<InventoryTransaction> InventoryTransactionRepository { get; }
         public IRepository<StockReservation> StockReservationRepository { get; }

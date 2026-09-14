@@ -22,10 +22,14 @@ namespace FixHub.Application.Features.Products.Queries.GetAllProducts
         {
             var page = Math.Max(1, request.Page);
             var pageSize = Math.Clamp(request.PageSize, 1, 100);
-            var query = _unitOfWork.ProductRepository.GetAll()
+            IQueryable<FixHub.Domain.Entities.Product> query = _unitOfWork.ProductRepository.GetAll()
                 .Include(x => x.Category)
-                .Include(x => x.Images)
-                .Where(x => x.IsActive);
+                .Include(x => x.Images);
+
+            if (!request.IncludeInactive)
+                query = query.Where(x => x.IsActive);
+            if (request.IsActive.HasValue)
+                query = query.Where(x => x.IsActive == request.IsActive.Value);
 
             if (!string.IsNullOrWhiteSpace(request.Q))
             {

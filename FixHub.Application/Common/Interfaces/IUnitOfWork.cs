@@ -16,6 +16,7 @@ namespace FixHub.Application.Common.Interfaces
         IAddressRepository AddressRepository { get; }
         IKnowledgeArticleRepository KnowledgeArticleRepository { get; }
         IKnowledgeChunkRepository KnowledgeChunkRepository { get; }
+        IRepository<UploadedImage> UploadedImageRepository { get; }
         ICartRepository CartRepository { get; }
         IRepository<InventoryTransaction> InventoryTransactionRepository { get; }
         IRepository<StockReservation> StockReservationRepository { get; }

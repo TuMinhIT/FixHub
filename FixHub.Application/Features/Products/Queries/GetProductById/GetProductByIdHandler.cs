@@ -24,7 +24,7 @@ namespace FixHub.Application.Features.Products.Queries.GetProductById
             var product = await _unitOfWork.ProductRepository.GetAll()
                 .Include(x => x.Category)
                 .Include(x => x.Images)
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == request.Id && (request.IncludeInactive || x.IsActive), cancellationToken);
             if (product == null) throw new NotFoundException(nameof(Product), request.Id);
             return _mapper.Map<ProductResponse>(product);
         }

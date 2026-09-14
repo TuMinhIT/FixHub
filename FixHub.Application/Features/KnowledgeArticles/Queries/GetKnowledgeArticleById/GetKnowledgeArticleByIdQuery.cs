@@ -6,6 +6,7 @@ namespace FixHub.Application.Features.KnowledgeArticles.Queries.GetKnowledgeArti
     public class GetKnowledgeArticleByIdQuery : IRequest<KnowledgeArticleResponse>
     {
         public Guid Id { get; set; }
+        public bool IncludeAllStatuses { get; set; }
         public GetKnowledgeArticleByIdQuery(Guid id) => Id = id;
     }
 }

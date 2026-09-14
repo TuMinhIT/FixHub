@@ -8,7 +8,6 @@ namespace FixHub.Domain.Entities
         public decimal BasePrice { get; set; }
         public string? ImageUrl { get; set; }
         public bool IsActive { get; set; } = true;
-
         public Guid CategoryId { get; set; }
         public Category Category { get; set; } = null!;
     }

@@ -20,8 +20,14 @@ namespace FixHub.Application.Features.KnowledgeArticles.Queries.GetKnowledgeArti
 
         public async Task<KnowledgeArticleResponse> Handle(GetKnowledgeArticleByIdQuery request, CancellationToken cancellationToken)
         {
-            var article = await _unitOfWork.KnowledgeArticleRepository.GetAll()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.Status == Domain.Entities.KnowledgeArticleStatuses.Published, cancellationToken);
+            var query = _unitOfWork.KnowledgeArticleRepository.GetAll()
+                .Where(x => x.Id == request.Id);
+            if (!request.IncludeAllStatuses)
+            {
+                query = query.Where(x => x.Status == Domain.Entities.KnowledgeArticleStatuses.Published);
+            }
+
+            var article = await query.FirstOrDefaultAsync(cancellationToken);
             if (article == null) throw new NotFoundException(nameof(Domain.Entities.KnowledgeArticle), request.Id);
             return _mapper.Map<KnowledgeArticleResponse>(article);
         }

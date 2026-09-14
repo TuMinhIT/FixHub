@@ -12,6 +12,20 @@ namespace FixHub.API.Controllers
     [Route("api/v1/auth")]
     public class AuthController(IMediator _mediator) : ControllerBase
     {
+        private CookieOptions RefreshTokenCookieOptions(DateTimeOffset? expires = null)
+        {
+            var isHttps = Request.IsHttps;
+
+            return new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = isHttps,
+                SameSite = isHttps ? SameSiteMode.None : SameSiteMode.Lax,
+                Path = "/",
+                Expires = expires ?? DateTimeOffset.UtcNow.AddDays(7)
+            };
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterCommand command, CancellationToken cancellationToken)
         {
@@ -32,18 +46,11 @@ namespace FixHub.API.Controllers
 
             Response.Cookies.Append(
             "refreshToken",
-            response.RefeshToken,
-            new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Path = "/",
-                Expires = DateTimeOffset.UtcNow.AddDays(7)
-            });
+            response.RefreshToken,
+            RefreshTokenCookieOptions());
 
  
-            response.RefeshToken = string.Empty;
+            response.RefreshToken = string.Empty;
             return Ok(new ApiResponse<LoginResponse>
             {
                 Success = true,
@@ -73,13 +80,7 @@ namespace FixHub.API.Controllers
             Response.Cookies.Append(
                 "refreshToken",
                 response.RefreshToken,
-                new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTimeOffset.UtcNow.AddDays(7)
-                });
+                RefreshTokenCookieOptions());
 
 
             response.RefreshToken = "";
@@ -123,12 +124,9 @@ namespace FixHub.API.Controllers
 
             //Response.Cookies.Delete("refreshToken");
 
-            Response.Cookies.Delete("refreshToken", new CookieOptions
-            {
-                Path = "/",
-                Secure = true,
-                SameSite = SameSiteMode.None
-            });
+            Response.Cookies.Delete(
+                "refreshToken",
+                RefreshTokenCookieOptions(DateTimeOffset.UnixEpoch));
 
 
             return Ok(new ApiResponse<string>

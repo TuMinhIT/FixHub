@@ -23,9 +23,10 @@ namespace FixHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllCategories([FromQuery] GetAllCategoriesQuery query, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetAllCategoriesQuery(), cancellationToken);
+            query.IncludeInactive = query.IncludeInactive && User.IsInRole("Admin");
+            var response = await _mediator.Send(query, cancellationToken);
             return Ok(new ApiResponse<List<CategoryResponse>>(response));
         }
 

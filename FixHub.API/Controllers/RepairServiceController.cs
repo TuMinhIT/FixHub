@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace FixHub.API.Controllers
 {
     [ApiController]
-    [Route("api/repairservice")]
     [Route("api/v1/repair-services")]
     public class RepairServiceController : ControllerBase
     {
@@ -24,9 +23,10 @@ namespace FixHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRepairServices(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllRepairServices([FromQuery] GetAllRepairServicesQuery query, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetAllRepairServicesQuery(), cancellationToken);
+            query.IncludeInactive = query.IncludeInactive && User.IsInRole("Admin");
+            var response = await _mediator.Send(query, cancellationToken);
             return Ok(new ApiResponse<List<RepairServiceResponse>>(response));
         }
 

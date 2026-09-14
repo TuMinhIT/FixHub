@@ -19,8 +19,11 @@ namespace FixHub.Application.Features.RepairServices.Queries.GetAllRepairService
 
         public async Task<List<RepairServiceResponse>> Handle(GetAllRepairServicesQuery request, CancellationToken cancellationToken)
         {
-            var services = await _unitOfWork.ServiceRepository.GetAll()
-                .Where(x => x.IsActive)
+            IQueryable<FixHub.Domain.Entities.RepairService> query = _unitOfWork.ServiceRepository.GetAll();
+            if (!request.IncludeInactive)
+                query = query.Where(x => x.IsActive);
+
+            var services = await query
                 .OrderBy(x => x.Name)
                 .ToListAsync(cancellationToken);
             return _mapper.Map<List<RepairServiceResponse>>(services);

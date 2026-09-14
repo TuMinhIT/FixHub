@@ -11,7 +11,7 @@ namespace FixHub.Domain.Entities
         public string? Source { get; set; }
         public int Version { get; set; } = 1;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }    
 
         public ICollection<KnowledgeChunk> Chunks { get; set; } = new List<KnowledgeChunk>();
     }

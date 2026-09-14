@@ -5,5 +5,6 @@ namespace FixHub.Application.Features.RepairServices.Queries.GetAllRepairService
 {
     public class GetAllRepairServicesQuery : IRequest<List<RepairServiceResponse>>
     {
+        public bool IncludeInactive { get; set; }
     }
 }

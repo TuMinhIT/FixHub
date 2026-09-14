@@ -19,8 +19,13 @@ namespace FixHub.Application.Features.KnowledgeArticles.Queries.GetAllKnowledgeA
 
         public async Task<List<KnowledgeArticleResponse>> Handle(GetAllKnowledgeArticlesQuery request, CancellationToken cancellationToken)
         {
-            var articles = await _unitOfWork.KnowledgeArticleRepository.GetAll()
-                .Where(x => x.Status == Domain.Entities.KnowledgeArticleStatuses.Published)
+            var query = _unitOfWork.KnowledgeArticleRepository.GetAll();
+            if (!request.IncludeAllStatuses)
+            {
+                query = query.Where(x => x.Status == Domain.Entities.KnowledgeArticleStatuses.Published);
+            }
+
+            var articles = await query
                 .OrderByDescending(x => x.UpdatedAt ?? x.CreatedAt)
                 .ToListAsync(cancellationToken);
             return _mapper.Map<List<KnowledgeArticleResponse>>(articles);

@@ -11,6 +11,7 @@ using FixHub.Infrastructure.BackgroundJobs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Google.GenAI;
 using FixHub.Application.Common.Interfaces.Rag;
 using FixHub.Infrastructure.RAG;
 namespace FixHub.Infrastructure
@@ -41,6 +42,7 @@ namespace FixHub.Infrastructure
             services.AddScoped<IRepository<StockReservation>, Repository<StockReservation>>();
             services.AddScoped<IRepository<PaymentEvent>, Repository<PaymentEvent>>();
             services.AddScoped<IRepository<RagFeedback>, Repository<RagFeedback>>();
+            services.AddScoped<IRepository<UploadedImage>, Repository<UploadedImage>>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -49,8 +51,10 @@ namespace FixHub.Infrastructure
             services.AddScoped<IPaymentGateway, SePayGateway>();
             services.AddScoped<IImageStorageService, CloudinaryService>();
 
-            services.AddHttpClient<IRagEmbeddingService,GeminiEmbeddingService  >();
-            services.AddHttpClient<IRagAnswerService, GeminiAnswerService>();
+            services.AddSingleton(_ => new Client(
+                apiKey: configuration["Gemini:ApiKey"]?.Trim() ?? string.Empty));
+            services.AddScoped<IRagEmbeddingService, GeminiEmbeddingService>();
+            services.AddScoped<IRagAnswerService, GeminiAnswerService>();
             services.AddSingleton<IRagIndexQueue, RagIndexQueue>();
             services.AddHostedService<RagIndexWorker>();
             services.AddHostedService<StockReservationCleanupService>();

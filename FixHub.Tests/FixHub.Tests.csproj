@@ -19,5 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\FixHub.Application\FixHub.Application.csproj" />
     <ProjectReference Include="..\FixHub.Domain\FixHub.Domain.csproj" />
+    <ProjectReference Include="..\FixHub.Infrastructure\FixHub.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

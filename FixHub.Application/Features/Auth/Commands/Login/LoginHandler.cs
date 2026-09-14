@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FixHub.Application.Common.Exceptions;
 using FixHub.Application.Common.Interfaces;
 using FixHub.Domain.Entities;
 using MediatR;
@@ -26,15 +27,18 @@ namespace FixHub.Application.Features.Auth.Commands.Login
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserRepository.GetByEmailAsync(request.Email);
-                     
+            if (user == null)
+                {
+                    throw new BadRequestException("Email does not exist!!!! Please register!");
+                }
             if (user == null || !_passwordHasher.Verify(request.Password, user.Password))
             {
-                throw new UnauthorizedAccessException("Invalid email or password");
+                throw new BadRequestException("Invalid email or password");
             }
 
             if (!user.IsActive)
             {
-                throw new UnauthorizedAccessException("User is not active");
+                throw new BadRequestException("User is not active");
             }
        
             //generate access token and refresh token
@@ -46,7 +50,7 @@ namespace FixHub.Application.Features.Auth.Commands.Login
 
             return new LoginResponse
             {
-                RefeshToken = refreshToken.Token,
+                RefreshToken = refreshToken.Token,
                 AccessToken = accessToken,
                 Expiration = DateTime.UtcNow.AddMinutes(30),
                 User = _mapper.Map<UserLoginResponse>(user)

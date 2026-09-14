@@ -5,5 +5,6 @@ namespace FixHub.Application.Features.KnowledgeArticles.Queries.GetAllKnowledgeA
 {
     public class GetAllKnowledgeArticlesQuery : IRequest<List<KnowledgeArticleResponse>>
     {
+        public bool IncludeAllStatuses { get; set; }
     }
 }

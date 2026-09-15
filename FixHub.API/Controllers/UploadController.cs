@@ -29,7 +29,7 @@ namespace FixHub.API.Controllers
         [HttpPost("image")]
         [Consumes("multipart/form-data")]
         [Authorize]
-        public async Task<IActionResult> UploadImage([FromForm] IFormFile file, CancellationToken cancellationToken)
+        public async Task<IActionResult> UploadImage(IFormFile file, CancellationToken cancellationToken)
         {
             var userId = _currentUserService.UserId;
             var result = await _imageStorageService.UploadAsync(

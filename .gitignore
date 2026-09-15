@@ -46,6 +46,7 @@ publish/
 
 # Secrets
 appsettings.Development.json
+FixHub.API/appsettings.json
 secrets.json
 
 # Environment

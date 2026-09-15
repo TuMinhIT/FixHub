@@ -9,6 +9,9 @@ namespace FixHub.Infrastructure.RAG;
 
 public sealed class GeminiAnswerService : IRagAnswerService
 {
+    private const string IncompleteAnswerFallback =
+        "Mình chưa thể tạo câu trả lời đầy đủ từ dữ liệu hiện có. Vui lòng mô tả rõ thiết bị, model và triệu chứng hoặc liên hệ kỹ thuật viên FixHub.";
+
     private readonly Client _client;
     private readonly string _apiKey;
     private readonly string _model;
@@ -36,9 +39,12 @@ public sealed class GeminiAnswerService : IRagAnswerService
         var prompt = $"""
             Bạn là trợ lý kỹ thuật của FixHub về thiết bị điện lạnh dân dụng.
             Chỉ sử dụng thông tin trong CONTEXT để trả lời QUESTION.
-            Nếu CONTEXT không đủ, nói rõ rằng chưa đủ dữ liệu và khuyến nghị người dùng liên hệ kỹ thuật viên.
+            Trả lời trực tiếp QUESTION; không mở đầu bằng lời dẫn chung như “Theo thông tin từ tài liệu...” và không nói rằng dữ liệu chưa đầy đủ nếu CONTEXT đã có câu trả lời.
+            Nếu CONTEXT thực sự không đủ, hãy nói chính xác thông tin nào còn thiếu và hỏi người dùng bổ sung một chi tiết cần thiết.
             Không khẳng định chẩn đoán tuyệt đối. Với nguy cơ điện, gas lạnh hoặc cháy nổ, luôn khuyến nghị ngắt điện và gọi kỹ thuật viên.
             Trả lời bằng tiếng Việt, ngắn gọn, theo các bước dễ làm và không bịa thêm thông số.
+            Câu trả lời phải có ít nhất một câu hoàn chỉnh, kết thúc đầy đủ và không được dừng giữa câu.
+            Không nhắc đến CONTEXT, prompt, mô hình AI hoặc việc bạn đang đọc tài liệu.
 
             QUESTION:
             {question}
@@ -59,10 +65,19 @@ public sealed class GeminiAnswerService : IRagAnswerService
                 },
                 cancellationToken: cancellationToken);
 
-            var text = response.Text;
-            return string.IsNullOrWhiteSpace(text)
-                ? "Chưa tạo được câu trả lời. Vui lòng thử lại sau."
-                : text.Trim();
+            var text = response.Text?.Trim();
+
+            //var candidate = response.Candidates?.FirstOrDefault();
+
+            //if (candidate?.FinishReason == FinishReason.MaxTokens)
+            //    return "Câu trả lời vượt quá giới hạn hiển thị. Vui lòng hỏi lại với nội dung ngắn gọn hơn hoặc liên hệ kỹ thuật viên FixHub.";
+
+            if (string.IsNullOrWhiteSpace(text))
+                return "Chưa tạo được câu trả lời. Vui lòng thử lại sau.";
+
+            return IsClearlyIncomplete(text)
+                ? IncompleteAnswerFallback
+                : text;
         }
         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
         {
@@ -84,5 +99,12 @@ public sealed class GeminiAnswerService : IRagAnswerService
         {
             throw new ServiceUnavailableException("Gemini answer provider is unavailable.", exception);
         }
+    }
+
+    private static bool IsClearlyIncomplete(string text)
+    {
+        var normalized = text.Trim().TrimEnd('.', ':', ';', '!', '?', '…');
+        return normalized.EndsWith("Dưới đây là", StringComparison.OrdinalIgnoreCase)
+            || normalized.EndsWith("Dưới đây là những thông tin", StringComparison.OrdinalIgnoreCase);
     }
 }

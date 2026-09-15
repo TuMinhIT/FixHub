@@ -4,7 +4,6 @@ using FixHub.Application.Common.Models;
 using FixHub.Infrastructure;
 using FixHub.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.DataProtection;
 using System.Threading.RateLimiting;
 
@@ -70,12 +69,17 @@ namespace FixHub.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            var allowedOrigins = builder.Configuration
+                .GetSection("Cors:AllowedOrigins")
+                .Get<string[]>()
+                ?? ["https://localhost:5173", "http://localhost:5173"];
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
                     policy
-                        .WithOrigins("https://localhost:5173", "http://localhost:5173")
+                        .WithOrigins(allowedOrigins)
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -92,7 +96,10 @@ namespace FixHub.API
 
             app.UseCors("AllowFrontend");
             app.UseMiddleware<ExceptionMiddleware>();
-            if (!app.Environment.IsDevelopment() || app.Urls.Any(x => x.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
+            var useHttpsRedirection = builder.Configuration.GetValue<bool?>("HttpsRedirection:Enabled")
+                ?? (app.Environment.IsDevelopment()
+                    && app.Urls.Any(x => x.StartsWith("https://", StringComparison.OrdinalIgnoreCase)));
+            if (useHttpsRedirection)
                 app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

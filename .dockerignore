@@ -1,0 +1,13 @@
+.git
+.github
+.vs
+**/bin
+**/obj
+**/TestResults
+**/*.user
+**/*.suo
+FixHub.API/appsettings.json
+FixHub.API/appsettings.Development.json
+**/.env
+**/.env.*
+data-protection-keys
